@@ -1,0 +1,6 @@
+use SooperbuyLiveDB
+GO
+INSERT [dbo].[StockUpInward]
+ ([StockupID], [StyleID], [UserID], [BagID], [SizeID], [DateTime], [LastBarcode], [StyleCode], [BarcodeNo], [RFLQty], [RejectQty], [Status], [LocationID], [ItemID], [SalesID], [RecordNo], [CourierTransactionID], [ExpiredDate], [ListingDate], [ModeOfPayment], [SoldAmount], [DispatchedDate], [SalesDate], [RackBarcode], [RackDate], [CancelReason], [CancelDate], [ListedUserID], [Picked], [BulkID], [BulkDate], [MoneyIn], [MoneyOut]) VALUES 
+
+	

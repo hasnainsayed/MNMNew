@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2000
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WnSAutopilot(1)", ".", "{279B90C2-8728-486B-BD83-DB0EE97FF0D1}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/DemoMTier"
+		Debug.AspNetCompiler.PhysicalPath = "..\WnSAutopilot\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\DemoMTier\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/DemoMTier"
+		Release.AspNetCompiler.PhysicalPath = "..\WnSAutopilot\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\DemoMTier\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54565"
+		SlnRelativePath = "..\WnSAutopilot\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		Ad-Hoc|iPhoneSimulator = Ad-Hoc|iPhoneSimulator
+		AppStore|Any CPU = AppStore|Any CPU
+		AppStore|iPhone = AppStore|iPhone
+		AppStore|iPhoneSimulator = AppStore|iPhoneSimulator
+		Debug|Any CPU = Debug|Any CPU
+		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|Any CPU = Release|Any CPU
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|Any CPU.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|Any CPU.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|iPhone.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|iPhone.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Ad-Hoc|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|Any CPU.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|Any CPU.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|iPhone.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|iPhone.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.AppStore|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|iPhone.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|iPhone.Build.0 = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{279B90C2-8728-486B-BD83-DB0EE97FF0D1}.Release|iPhoneSimulator.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {79A41F5F-8950-41A4-AD19-046DD906369A}
+	EndGlobalSection
+EndGlobal

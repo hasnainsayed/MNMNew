@@ -1,0 +1,6 @@
+GO
+INSERT [dbo].[ItemStyle] ([StyleID], [BagId], [Col1], [ItemCatID], [Control1], [Control2], [Control3], [Title], [LoginID], [SystemDate], [StyleCode], [Col3], [Control4],[Control5], [Status], [ListStatus], [ListedByUser]) VALUES 
+	(26000, 19, 33, 3, 'B072XQ4MYP', 'Red Tape', 'https://www.amazon.in/Red-Tape-White-Flip-Flops-Slippers/dp/B072XQ4MYP/ref=sr_1_50?ie=UTF8&qid=1536218679&sr=8-50&keywords=red+tape+men+flip+flops', 'Red Tape Mens Flip-Flops and House Slippers\r\n', 13, '2018-09-06 12:56:49', 'PNI', 0, '499', 'Navy Blue', 'S', 0, NULL),
+	(26001, 19, 13, 5, '', 'CN245', 'https://www.amazon.in/Clarks-Womens-Coral-Creek-Ballet/dp/B00KX7M92C/ref=sr_1_98_sspa?s=shoes&ie=UTF8&qid=1536219158&sr=1-98-spons&keywords=clarks+women+footwear&psc=1', 'Clarks Womens Coral Creek Ballet Flats', 18, '2018-09-06 13:03:42', 'PNJ', 1, '5499', 'Black', 'S', 0, NULL),
+	(26002, 19, 13, 1, '', '', 'https://www.myntra.com/formal-shoes/clarks/clarks-men-black-leather-formal-shoes/2133918/buy', 'Clarks Men Black Leather Formal Shoes', 24, '2018-09-06 13:08:24', 'PNK', 0, '5499', 'Black', 'S', 0, NULL),
+	(26003, 19, 88, 5, '', '6716130', 'https://www.amazon.in/BATA-Womens-Agatha-Black-Slippers/dp/B01LYKOA8W/ref=sr_1_1?s=shoes&ie=UTF8&qid=1536219549&sr=1-1&keywords=6716130', 'BATA Womens Agatha Mule Slippers', 18, '2018-09-06 13:09:46', 'PNL', 1, '899', 'Black', 'S', 0, NULL)
