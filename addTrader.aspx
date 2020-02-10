@@ -66,7 +66,7 @@
                                                         <th>Style</th>
                                                         <th>MRP/Piece</th>
                                                         <th>Purchase Rate/Piece</th>
-                                                        <th>SP</th>
+                                                        <th>SP/Packet</th>
                                                         <th>Quantity</th>
                                                         <th>Piece/Packet</th>
                                                         <th>Remove</th>

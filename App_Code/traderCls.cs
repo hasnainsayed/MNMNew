@@ -118,7 +118,8 @@ public class traderCls
                         command.Parameters.AddWithValue("@SizeID", dRow["Size"].ToString());
                         command.Parameters.AddWithValue("@LastBarcode", LastBarcode);
                         command.Parameters.AddWithValue("@Status", "RFL");
-                        command.Parameters.AddWithValue("@mrp", Convert.ToDecimal(dRow["mrp"].ToString()) * Convert.ToDecimal(dRow["quantity"].ToString()));
+                        command.Parameters.AddWithValue("@mrp", Convert.ToDecimal(dRow["mrp"].ToString()) * Convert.ToDecimal(sizeDt.Rows[0]["Size1"].ToString()));
+                        //command.Parameters.AddWithValue("@mrp", Convert.ToDecimal(dRow["mrp"].ToString()) * Convert.ToDecimal(dRow["quantity"].ToString()));
                         command.Parameters.AddWithValue("@userId", userId);
                         command.Parameters.AddWithValue("@BarcodeNo", BarcodeNo);
                         command.Parameters.AddWithValue("@oldBarcode", string.Empty);
@@ -126,7 +127,8 @@ public class traderCls
                         command.Parameters.AddWithValue("@mfgDate", DateTime.Now.ToString("yyyy-MM-dd"));
                         command.Parameters.AddWithValue("@piecePerPacket", sizeDt.Rows[0]["Size1"].ToString());
                         command.Parameters.AddWithValue("@isSample", "0");
-                        command.Parameters.AddWithValue("@purchaseRate", Convert.ToDecimal(dRow["purchaseRate"].ToString()) * Convert.ToDecimal(dRow["quantity"].ToString()));
+                        command.Parameters.AddWithValue("@purchaseRate", Convert.ToDecimal(dRow["purchaseRate"].ToString()) * Convert.ToDecimal(sizeDt.Rows[0]["Size1"].ToString()));
+                        //command.Parameters.AddWithValue("@purchaseRate", Convert.ToDecimal(dRow["purchaseRate"].ToString()) * Convert.ToDecimal(dRow["quantity"].ToString()));
                         int stockId = (Int32)command.ExecuteScalar();
 
                         //calculate gst percent

@@ -325,7 +325,8 @@ public partial class addTrader : System.Web.UI.Page
                     {
                         res1 = "Saved Successfully";
                     }
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alert1", "alert('" + res1 + "');", true);
+                    //ScriptManager.RegisterStartupScript(this, this.GetType(), "alert1", "alert('" + res1 + "');", true);
+                    ScriptManager.RegisterStartupScript(this, this.GetType(),"alert1", "alert('" + res1 + "');window.location ='Default.aspx';",true);
                 }
                 else
                 {
