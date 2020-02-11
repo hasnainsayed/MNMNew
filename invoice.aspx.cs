@@ -403,12 +403,14 @@ public partial class invoice : System.Web.UI.Page
             LinkButton markPaid = (LinkButton)e.Item.FindControl("markPaid");
             LinkButton makePayment = (LinkButton)e.Item.FindControl("makePayment");
             LinkButton viewInv = (LinkButton)e.Item.FindControl("viewInv");
+            LinkButton viewBarcodes = (LinkButton)e.Item.FindControl("viewBarcodes");
             if (paymentStatus.Equals("unpaid") && invoiceStatus.Equals("Invoiced"))
             {
                 cancelInvoice.Visible = true;
                 markPaid.Visible = true;
                 makePayment.Visible = true;
                 viewInv.Visible = true;
+                viewBarcodes.Visible = true;
             }
             
 
@@ -482,6 +484,37 @@ public partial class invoice : System.Web.UI.Page
         {
             Session["addTrader"] = "0";
             Response.Redirect("addTrader.aspx",true);
+        }
+        catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
+
+    protected void viewBarcodes_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            LinkButton btn = ((LinkButton)(sender));
+            RepeaterItem rp1 = ((RepeaterItem)(btn.NamingContainer));
+            Label invoiceid = (Label)rp1.FindControl("invoiceid");
+
+            Session["invoiceId"] = invoiceid.Text;
+            Response.Redirect("viewBarcodes.aspx", true);
+        }
+        catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
+
+    protected void multipleInvoice_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("multipleInvoice.aspx",true);
         }
         catch (Exception ex)
         {
