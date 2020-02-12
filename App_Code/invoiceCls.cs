@@ -438,82 +438,165 @@ public class invoiceCls
             command.CommandText = "select * from salesrecord where invoiceid=@invid1";
             command.Parameters.AddWithValue("@invid1", invoiceId);
             dt.Load(command.ExecuteReader());
-
+            int chckStatus = 0;
             if (!dt.Rows.Count.Equals(0))
             {
                 foreach (DataRow dRow in dt.Rows)
                 {
-                    //update stockupinward status
-                    command.CommandText = "update StockUpInward set status=@status where StockupID=@StockupID";
-                    command.Parameters.AddWithValue("@StockupID", dRow["itemid"]);
-                    command.Parameters.AddWithValue("@status", "RFL");
-                    command.ExecuteNonQuery();
+                    command.CommandText = "select * from ArchiveStockUpInward where ArchiveStockupID=@ArchiveStockupID";
+                    command.Parameters.AddWithValue("@ArchiveStockupID", dRow["archiveid"].ToString());
+                    DataTable archiveDt = new DataTable();
+                    archiveDt.Load(command.ExecuteReader());
+                    if(archiveDt.Rows.Count.Equals(0))
+                    {
+                        chckStatus = 1;
+                        break;
+                    }
+                    else
+                    {
+                        command.CommandText = "SET IDENTITY_INSERT StockUpInward ON; INSERT INTO StockUpInward(StyleID, UserID, BagID, SizeID, DateTime, LastBarcode, StyleCode, BarcodeNo, RFLQty, RejectQty, Status, LocationID, ExpiredDate, ListingDate, ModeOfPayment, SoldAmount, DispatchedDate, SalesDate, RackBarcode, RackDate, CancelReason, CancelDate, ListedUserID, Picked, BulkID, BulkDate, MoneyIn, MoneyOut, ItemID, SalesID, RecordNo, CourierTransactionID, mrp, StockupID,SystemDate,printed,oldBarcode,initialStatus,labels,mfgDate,labelUserId,piecePerPacket,isSample,purchaseRate,travelCost) SELECT StyleID, UserID, BagID, SizeID, DateTime, LastBarcode, StyleCode, BarcodeNo, RFLQty, RejectQty, Status, LocationID, ExpiredDate, ListingDate, ModeOfPayment, SoldAmount, DispatchedDate, SalesDate, RackBarcode, RackDate, CancelReason, CancelDate, ListedUserID, Picked, BulkID, BulkDate, MoneyIn, MoneyOut, ItemID, SalesID, RecordNo, CourierTransactionID, mrp, StockupID,SystemDate,printed,oldBarcode,initialStatus,labels,mfgDate,labelUserId,piecePerPacket,isSample,purchaseRate,travelCost FROM ArchiveStockUpInward WHERE ArchiveStockupID = @ArchiveStockupID;SET IDENTITY_INSERT StockUpInward OFF; ";
 
-                    //insert into cancelTrans
-                    command.CommandText = "insert into cancelTrans (sid,invoiceid,saleschannelvlocid,salesidgivenbyvloc,sellingprice,status,itemid,archiveid,recordtimestamp,dispatchtimestamp,dispatchuserid,gstpercent," +
-                "taxableamount,cgstamnt,sgstamnt,igstamnt,salesCourier,salesAbwno,returntimestamp,returnuserid,returnCourier,returnAbwno,reasons,remarks,salesDateTime,salesUserId,canReason,cancelId," +
-                "cancleReason,changeStatus,rImage1,rImage2,rImage3,rImage4,rImage5,rImage6,rImage7,rImage8,rImage9,rImage10,rVideo1,rVideo2,discountPer)" +
-                    " values " +
-                    "(@sid1,@invoiceid1,@saleschannelvlocid,@salesidgivenbyvloc,@sellingprice,@status2,@itemid,@archiveid," +
-                    "@recordtimestamp,@dispatchtimestamp,@dispatchuserid,@gstpercent," +
-                    "@taxableamount,@cgstamnt,@sgstamnt,@igstamnt,@salesCourier,@salesAbwno,@returntimestamp," +
-                    "@returnuserid,@returnCourier,@returnAbwno,@reasons,@remarks,@salesDateTime,@salesUserId," +
-                    "@canReason,@cancelId,@cancleReason,@changeStatus,@rImage1,@rImage2,@rImage3,@rImage4,@rImage5,@rImage6,@rImage7,@rImage8,@rImage9,@rImage10,@rVideo1,@rVideo2,@discountPer)";
-                    command.Parameters.AddWithValue("@sid1", dRow["sid"]);
-                    command.Parameters.AddWithValue("@saleschannelvlocid", dRow["saleschannelvlocid"].ToString());
-                    command.Parameters.AddWithValue("@invoiceid1", dRow["invoiceid"].ToString());
-                    command.Parameters.AddWithValue("@salesidgivenbyvloc", dRow["salesidgivenbyvloc"].ToString());
-                    command.Parameters.AddWithValue("@sellingprice", Convert.ToDecimal(dRow["sellingprice"].ToString()));
-                    command.Parameters.AddWithValue("@status2", dRow["status"].ToString());
-                    command.Parameters.AddWithValue("@itemid", dRow["itemid"].ToString());
-                    command.Parameters.AddWithValue("@archiveid", dRow["archiveid"].ToString());
-                    command.Parameters.AddWithValue("@recordtimestamp", Convert.ToDateTime(dRow["recordtimestamp"]).ToString("yyyy-MM-dd HH:mm:ss.mmm"));
-                    command.Parameters.AddWithValue("@dispatchtimestamp", dRow["dispatchtimestamp"]);
-                    command.Parameters.AddWithValue("@dispatchuserid", dRow["dispatchuserid"].ToString());
-                    command.Parameters.AddWithValue("@gstpercent", dRow["gstpercent"].ToString());
-                    command.Parameters.AddWithValue("@taxableamount", dRow["taxableamount"].ToString());
-                    command.Parameters.AddWithValue("@cgstamnt", dRow["cgstamnt"].ToString());
-                    command.Parameters.AddWithValue("@sgstamnt", dRow["sgstamnt"].ToString());
-                    command.Parameters.AddWithValue("@igstamnt", dRow["igstamnt"].ToString());
-                    command.Parameters.AddWithValue("@salesCourier", dRow["salesCourier"].ToString());
-                    command.Parameters.AddWithValue("@salesAbwno", dRow["salesAbwno"].ToString());
-                    command.Parameters.AddWithValue("@returntimestamp", dRow["returntimestamp"]);
-                    command.Parameters.AddWithValue("@returnuserid", dRow["returnuserid"].ToString());
-                    command.Parameters.AddWithValue("@returnCourier", dRow["returnCourier"].ToString());
-                    command.Parameters.AddWithValue("@returnAbwno", dRow["returnAbwno"].ToString());
-                    command.Parameters.AddWithValue("@reasons", dRow["reasons"].ToString());
-                    command.Parameters.AddWithValue("@remarks", dRow["remarks"].ToString());
-                    command.Parameters.AddWithValue("@salesDateTime", Convert.ToDateTime(dRow["salesDateTime"]).ToString("yyyy-MM-dd HH:mm:ss.mmm"));
-                    command.Parameters.AddWithValue("@salesUserId", dt.Rows[0]["salesUserId"].ToString());
-                    command.Parameters.AddWithValue("@canReason", "Merchant Cancelled");
-                    command.Parameters.AddWithValue("@cancelId", userId);
-                    command.Parameters.AddWithValue("@cancleReason", "Self Cancellation");
-                    command.Parameters.AddWithValue("@changeStatus", "RFL");
-                    command.Parameters.AddWithValue("@rImage1", dRow["rImage1"].ToString());
-                    command.Parameters.AddWithValue("@rImage2", dRow["rImage2"].ToString());
-                    command.Parameters.AddWithValue("@rImage3", dRow["rImage3"].ToString());
-                    command.Parameters.AddWithValue("@rImage4", dRow["rImage4"].ToString());
-                    command.Parameters.AddWithValue("@rImage5", dRow["rImage5"].ToString());
-                    command.Parameters.AddWithValue("@rImage6", dRow["rImage6"].ToString());
-                    command.Parameters.AddWithValue("@rImage7", dRow["rImage7"].ToString());
-                    command.Parameters.AddWithValue("@rImage8", dRow["rImage8"].ToString());
-                    command.Parameters.AddWithValue("@rImage9", dRow["rImage9"].ToString());
-                    command.Parameters.AddWithValue("@rImage10", dRow["rImage10"].ToString());
-                    command.Parameters.AddWithValue("@rVideo1", dRow["rVideo1"].ToString());
-                    command.Parameters.AddWithValue("@rVideo2", dRow["rVideo2"].ToString());
-                    command.Parameters.AddWithValue("@discountPer", dRow["discountPer"].ToString());
-                    command.ExecuteNonQuery();
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected.Equals(1))
+                        {
+                            // update stock up with status
+                            command.CommandText = "update StockUpInward set Status=@Ustatus,RackBarcode=@RackBarcode,printed=@printed123 where StockupID=@updateStockupID";
+                            command.Parameters.AddWithValue("@Ustatus", "RFL");
+                            command.Parameters.AddWithValue("@RackBarcode", "");
+                            command.Parameters.AddWithValue("@printed123", "No");
+                            command.Parameters.AddWithValue("@updateStockupID", archiveDt.Rows[0]["StockupID"].ToString());
+                            command.ExecuteNonQuery();
 
-                    // delete from salesrecord
-                    command.CommandText = "DELETE FROM salesrecord WHERE sid=@sid";
-                    command.Parameters.AddWithValue("@sid", dRow["sid"]);
-                    command.ExecuteNonQuery();
+                            //Delete from ArchiveStockUpInward
+                            command.CommandText = "DELETE FROM ArchiveStockUpInward WHERE ArchiveStockupID=@ArchiveStockupID ";                            
+                            int rowsAffectedDel = command.ExecuteNonQuery();
 
+                            if (rowsAffectedDel.Equals(1))
+                            {
+                                // select data from sales id and add to transaction
+                                command.CommandText = "insert into cancelTrans (sid,invoiceid,saleschannelvlocid," +
+                                    "salesidgivenbyvloc,sellingprice,status,itemid,archiveid,recordtimestamp,dispatchtimestamp," +
+                                    "dispatchuserid,gstpercent,taxableamount,cgstamnt,sgstamnt,igstamnt,salesCourier,salesAbwno," +
+                                    "returntimestamp,returnuserid,returnCourier,returnAbwno,reasons,remarks,salesDateTime," +
+                                    "salesUserId,canReason,cancelId,cancleReason,changeStatus,rImage1,rImage2,rImage3," +
+                                    "rImage4,rImage5,rImage6,rImage7,rImage8,rImage9,rImage10,rVideo1,rVideo2" +
+                                    ",smsStatus,whatsappStatus,deliveryStatus,deliveryDate,callOneStatus,callOneDateime,callOneUserId,callTwoStatus,callTwoDatetime,callTwoUserId,callThreeStatus,callThreeDatetime,callThreeUserId" +
+                                    ",callFourStatus,callFourDatetime,callFourUserId,callFiveStatus,callFiveDatetime," +
+                                    "callFiveUserId,customerStatus,callingStatus,contactStatus,callingCount,delStatus,follwUpTime)" +
+                                        " values " +
+                                        "(@sid1,@invoiceid1,@saleschannelvlocid,@salesidgivenbyvloc," +
+                                        "@sellingprice,@status1,@itemid,@archiveid," +
+                                        "@recordtimestamp,@dispatchtimestamp,@dispatchuserid,@gstpercent," +
+                                        "@taxableamount,@cgstamnt,@sgstamnt,@igstamnt,@salesCourier,@salesAbwno,@returntimestamp," +
+                                        "@returnuserid,@returnCourier,@returnAbwno,@reasons,@remarks,@salesDateTime," +
+                                        "@salesUserId,@canReason,@cancelId,@cancleReason,@changeStatus,@rImage1,@rImage2," +
+                                        "@rImage3,@rImage4,@rImage5,@rImage6,@rImage7,@rImage8,@rImage9,@rImage10,@rVideo1," +
+                                        "@rVideo2" +
+                                        ",@smsStatus,@whatsappStatus,@deliveryStatus,@deliveryDate,@callOneStatus,@callOneDateime,@callOneUserId,@callTwoStatus,@callTwoDatetime,@callTwoUserId,@callThreeStatus,@callThreeDatetime,@callThreeUserId" +
+                                        ",@callFourStatus,@callFourDatetime,@callFourUserId,@callFiveStatus,@callFiveDatetime," +
+                                        "@callFiveUserId,@customerStatus,@callingStatus,@contactStatus,@callingCount,@delStatus,@follwUpTime)";
+                                command.Parameters.AddWithValue("@sid1", dRow["sid"].ToString());
+                                command.Parameters.AddWithValue("@saleschannelvlocid", dRow["saleschannelvlocid"].ToString());
+                                command.Parameters.AddWithValue("@invoiceid1", dRow["invoiceid"].ToString());
+                                command.Parameters.AddWithValue("@salesidgivenbyvloc", dRow["salesidgivenbyvloc"].ToString());
+                                command.Parameters.AddWithValue("@sellingprice", Convert.ToDecimal(dRow["sellingprice"].ToString()));
+                                command.Parameters.AddWithValue("@status1", dRow["status"].ToString());
+                                command.Parameters.AddWithValue("@itemid", dRow["itemid"].ToString());
+                                command.Parameters.AddWithValue("@archiveid", dRow["archiveid"].ToString());
+                                command.Parameters.AddWithValue("@recordtimestamp", Convert.ToDateTime(dRow["recordtimestamp"]).ToString("yyyy-MM-dd HH:mm:ss.mmm"));
+                                command.Parameters.AddWithValue("@dispatchtimestamp", dRow["dispatchtimestamp"]);
+                                command.Parameters.AddWithValue("@dispatchuserid", dRow["dispatchuserid"].ToString());
+                                command.Parameters.AddWithValue("@gstpercent", dRow["gstpercent"].ToString());
+                                command.Parameters.AddWithValue("@taxableamount", dRow["taxableamount"].ToString());
+                                command.Parameters.AddWithValue("@cgstamnt", dRow["cgstamnt"].ToString());
+                                command.Parameters.AddWithValue("@sgstamnt", dRow["sgstamnt"].ToString());
+                                command.Parameters.AddWithValue("@igstamnt", dRow["igstamnt"].ToString());
+                                command.Parameters.AddWithValue("@salesCourier", dRow["salesCourier"].ToString());
+                                command.Parameters.AddWithValue("@salesAbwno", dRow["salesAbwno"].ToString());
+                                command.Parameters.AddWithValue("@returntimestamp", dRow["returntimestamp"]);
+                                command.Parameters.AddWithValue("@returnuserid", dRow["returnuserid"].ToString());
+                                command.Parameters.AddWithValue("@returnCourier", dRow["returnCourier"].ToString());
+                                command.Parameters.AddWithValue("@returnAbwno", dRow["returnAbwno"].ToString());
+                                command.Parameters.AddWithValue("@reasons", dRow["reasons"].ToString());
+                                command.Parameters.AddWithValue("@remarks", dRow["remarks"].ToString());
+                                command.Parameters.AddWithValue("@salesDateTime", Convert.ToDateTime(dRow["salesDateTime"]).ToString("yyyy-MM-dd HH:mm:ss.mmm"));
+                                command.Parameters.AddWithValue("@salesUserId", dRow["salesUserId"].ToString());
+                                command.Parameters.AddWithValue("@canReason", "Invoice Cancelled");
+                                command.Parameters.AddWithValue("@cancelId", userId);
+                                command.Parameters.AddWithValue("@cancleReason", "Invoice Cancelled");
+                                command.Parameters.AddWithValue("@changeStatus", "DELETED");
+                                command.Parameters.AddWithValue("@rImage1", dRow["rImage1"].ToString());
+                                command.Parameters.AddWithValue("@rImage3", dRow["rImage3"].ToString());
+                                command.Parameters.AddWithValue("@rImage4", dRow["rImage4"].ToString());
+                                command.Parameters.AddWithValue("@rImage2", dRow["rImage2"].ToString());
+                                command.Parameters.AddWithValue("@rImage5", dRow["rImage5"].ToString());
+                                command.Parameters.AddWithValue("@rImage6", dRow["rImage6"].ToString());
+                                command.Parameters.AddWithValue("@rImage7", dRow["rImage7"].ToString());
+                                command.Parameters.AddWithValue("@rImage8", dRow["rImage8"].ToString());
+                                command.Parameters.AddWithValue("@rImage9", dRow["rImage9"].ToString());
+                                command.Parameters.AddWithValue("@rImage10", dRow["rImage10"].ToString());
+                                command.Parameters.AddWithValue("@rVideo1", dRow["rVideo1"].ToString());
+                                command.Parameters.AddWithValue("@rVideo2", dRow["rVideo2"].ToString());
+                                command.Parameters.AddWithValue("@smsStatus", dRow["smsStatus"].ToString());
+                                command.Parameters.AddWithValue("@whatsappStatus", dRow["whatsappStatus"].ToString());
+                                command.Parameters.AddWithValue("@deliveryDate", dRow["deliveryDate"].ToString());
+                                command.Parameters.AddWithValue("@callOneStatus", dRow["callOneStatus"].ToString());
+                                command.Parameters.AddWithValue("@callOneDateime", dRow["callOneDateime"].ToString());
+                                command.Parameters.AddWithValue("@callOneUserId", dRow["callOneUserId"].ToString());
+                                command.Parameters.AddWithValue("@callTwoStatus", dRow["callTwoStatus"].ToString());
+                                command.Parameters.AddWithValue("@callTwoDatetime", dRow["callTwoDatetime"].ToString());
+                                command.Parameters.AddWithValue("@callTwoUserId", dRow["callTwoUserId"].ToString());
+                                command.Parameters.AddWithValue("@callThreeStatus", dRow["callThreeStatus"].ToString());
+                                command.Parameters.AddWithValue("@callThreeDatetime", dRow["callThreeDatetime"].ToString());
+                                command.Parameters.AddWithValue("@callThreeUserId", dRow["callThreeUserId"].ToString());
+                                command.Parameters.AddWithValue("@callFourStatus", dRow["callFourStatus"].ToString());
+                                command.Parameters.AddWithValue("@callFourDatetime", dRow["callFourDatetime"].ToString());
+                                command.Parameters.AddWithValue("@callFourUserId", dRow["callFourUserId"].ToString());
+                                command.Parameters.AddWithValue("@callFiveStatus", dRow["callFiveStatus"].ToString());
+                                command.Parameters.AddWithValue("@callFiveDatetime", dRow["callFiveDatetime"].ToString());
+                                command.Parameters.AddWithValue("@callFiveUserId", dRow["callFiveUserId"].ToString());
+                                command.Parameters.AddWithValue("@customerStatus", dRow["customerStatus"].ToString());
+                                command.Parameters.AddWithValue("@callingStatus", dRow["callingStatus"].ToString());
+                                command.Parameters.AddWithValue("@contactStatus", dRow["contactStatus"].ToString());
+                                command.Parameters.AddWithValue("@callingCount", dRow["callingCount"].ToString());
+                                command.Parameters.AddWithValue("@delStatus", dRow["delStatus"].ToString());
+                                command.Parameters.AddWithValue("@deliveryStatus", dRow["deliveryStatus"].ToString());
+                                command.Parameters.AddWithValue("@follwUpTime", dRow["follwUpTime"].ToString());                                
+                                command.ExecuteNonQuery();
+
+                                // delete from salesrecord
+                                command.CommandText = "DELETE FROM salesrecord WHERE sid=@sid";
+                                command.Parameters.AddWithValue("@sid", dRow["sid"].ToString());
+                                command.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                chckStatus = 1;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            chckStatus = 1;
+                            break;
+                        }
+                    }
+                    
+
+                   
                     command.Parameters.Clear();
                 }
             }
 
-            transaction.Commit();
+            if(chckStatus.Equals(0))
+            {
+                transaction.Commit();
+            }
+            else
+            {
+                transaction.Rollback();
+            }
+            
             if (connection.State == ConnectionState.Open)
                 connection.Close();
 
@@ -1329,6 +1412,126 @@ command.CommandText = "INSERT INTO ArchiveStockUpInward (StyleID, UserID, BagID,
                 RecordExceptionCls rex = new RecordExceptionCls();
                 rex.recordException(ex2);
                 result = "RollBack";
+
+            }
+        }
+        return result;
+    }
+
+    public int deleteInvoice(string invoiceId)
+    {
+        int result = 1;
+        string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
+        SqlConnection connection = new SqlConnection(connectionString);
+        if (connection.State != ConnectionState.Open)
+        {
+            connection.Open();
+        }
+
+        SqlCommand command = connection.CreateCommand();
+        SqlTransaction transaction;
+
+        // Start a local transaction.
+        transaction = connection.BeginTransaction("invByCust");
+        command.Connection = connection;
+        command.Transaction = transaction;
+        try
+        {
+            // change invoice status
+            command.CommandText = "update invoice set invoiceStatus=@invoiceStatus where invid = @invid";
+            command.Parameters.AddWithValue("@invoiceStatus", "Deleted");
+            command.Parameters.AddWithValue("@invid", invoiceId);
+            command.ExecuteNonQuery();
+            command.Parameters.Clear();
+
+            // delete from sales and add into cancel
+            DataTable dt = new DataTable();
+            command.CommandText = "select * from salesrecord where invoiceid=@invid1";
+            command.Parameters.AddWithValue("@invid1", invoiceId);
+            dt.Load(command.ExecuteReader());
+            int chckStatus = 0;
+            if (!dt.Rows.Count.Equals(0))
+            {
+                foreach (DataRow dRow in dt.Rows)
+                {
+                    command.CommandText = "select * from ArchiveStockUpInward where ArchiveStockupID=@ArchiveStockupID";
+                    command.Parameters.AddWithValue("@ArchiveStockupID", dRow["archiveid"].ToString());
+                    DataTable archiveDt = new DataTable();
+                    archiveDt.Load(command.ExecuteReader());
+                    if (archiveDt.Rows.Count.Equals(0))
+                    {
+                        chckStatus = 1;
+                        break;
+                    }
+                    else
+                    {
+                        command.CommandText = "INSERT INTO deleteStockUpInward(StyleID, UserID, BagID, SizeID, DateTime, LastBarcode, StyleCode, BarcodeNo, RFLQty, RejectQty, Status, LocationID, ExpiredDate, ListingDate, ModeOfPayment, SoldAmount, DispatchedDate, SalesDate, RackBarcode, RackDate, CancelReason, CancelDate, ListedUserID, Picked, BulkID, BulkDate, MoneyIn, MoneyOut, ItemID, SalesID, RecordNo, CourierTransactionID, mrp, StockupID,SystemDate,printed,oldBarcode,initialStatus,labels,mfgDate,labelUserId,piecePerPacket,isSample,purchaseRate,travelCost) SELECT StyleID, UserID, BagID, SizeID, DateTime, LastBarcode, StyleCode, BarcodeNo, RFLQty, RejectQty, Status, LocationID, ExpiredDate, ListingDate, ModeOfPayment, SoldAmount, DispatchedDate, SalesDate, RackBarcode, RackDate, CancelReason, CancelDate, ListedUserID, Picked, BulkID, BulkDate, MoneyIn, MoneyOut, ItemID, SalesID, RecordNo, CourierTransactionID, mrp, StockupID,SystemDate,printed,oldBarcode,initialStatus,labels,mfgDate,labelUserId,piecePerPacket,isSample,purchaseRate,travelCost FROM ArchiveStockUpInward WHERE ArchiveStockupID = @ArchiveStockupID; ";
+
+                        int rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected.Equals(1))
+                        {
+                            
+                            //Delete from ArchiveStockUpInward
+                            command.CommandText = "DELETE FROM ArchiveStockUpInward WHERE ArchiveStockupID=@ArchiveStockupID ";
+                            int rowsAffectedDel = command.ExecuteNonQuery();
+
+                            if (rowsAffectedDel.Equals(1))
+                            {                                
+                                // delete from salesrecord
+                                command.CommandText = "DELETE FROM salesrecord WHERE sid=@sid";
+                                command.Parameters.AddWithValue("@sid", dRow["sid"].ToString());
+                                command.ExecuteNonQuery();
+                            }
+                            else
+                            {
+                                chckStatus = 1;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            chckStatus = 1;
+                            break;
+                        }
+                    }
+
+
+
+                    command.Parameters.Clear();
+                }
+            }
+
+            if (chckStatus.Equals(0))
+            {
+                transaction.Commit();
+            }
+            else
+            {
+                transaction.Rollback();
+            }
+
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+
+        }
+        catch (Exception ex)
+        {
+            try
+            {
+                transaction.Rollback();
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+                RecordExceptionCls rex = new RecordExceptionCls();
+                rex.recordException(ex);
+                result = -1;
+            }
+            catch (Exception ex2)
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+                RecordExceptionCls rex = new RecordExceptionCls();
+                rex.recordException(ex2);
+                result = -1;
 
             }
         }

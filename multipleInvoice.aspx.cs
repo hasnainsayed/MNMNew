@@ -9,6 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.IO;
 using System.Net;
 using System.Text;
+using HtmlAgilityPack;
 
 public partial class multipleInvoice : System.Web.UI.Page
 {
@@ -50,23 +51,20 @@ public partial class multipleInvoice : System.Web.UI.Page
     {
         try
         {
+            printData.InnerHtml = string.Empty;
             DataTable drops = new DataTable();
             drops.Columns.Add("invid");
-            int i = 0;
+            string datas = string.Empty;
             foreach (RepeaterItem itemEquipment in rpt_dropdown.Items)
             {
-                DropDownList drp_dropdown = (DropDownList)itemEquipment.FindControl("drp_dropdown");              
-                /*if (!drp_dropdown.SelectedValue.Equals("-1"))
-                {
-                    drops.Rows.Add(drp_dropdown.SelectedValue);
-                }*/
-               
-                Session["invoiceId"] = drp_dropdown.SelectedValue;
-                ScriptManager.RegisterStartupScript(this, GetType(), "openWindow"+i, "window.open('viewInvoice.aspx','_blank');", true);
-                //Response.Redirect("viewInvoice.aspx", true);
-                i++;
+                DropDownList drp_dropdown = (DropDownList)itemEquipment.FindControl("drp_dropdown");                
+                string givenurl = @"http://localhost:54565/printInvoice.aspx?paraSopLink=ftko0ji9hu8&paraSopT=" + drp_dropdown.SelectedValue;
+                HtmlDocument w = new HtmlWeb().Load(givenurl);                
+                string thisinvoice = w.GetElementbyId("getthis").InnerHtml.ToString();
+                datas += thisinvoice;                
             }
-
+            printData.InnerHtml = datas;
+            
         }
         catch (Exception ex)
         {

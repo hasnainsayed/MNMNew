@@ -189,6 +189,7 @@
                             <asp:Button ID="btnadd" runat="server" Text="Add New Bora" class="btn btn-primary btn-sm" OnClick="btnadd_Click" visible="false"/>
                              <asp:Button ID="generateBora" runat="server" Text="Generate Bora" class="btn btn-primary btn-sm" OnClick="generateBora_Click" />
                             <asp:Button ID="addPayment" runat="server" Text="Add Payment" class="btn btn-warning btn-sm" OnClick="addPayment_Click" />
+                            <asp:Button ID="generateMulBora" runat="server" Text="Generate Multiple Bora" class="btn btn-info btn-sm" OnClick="generateMulBora_Click" />
                         </h3>
                           </div>
                     <div class="box-body table-responsive">
