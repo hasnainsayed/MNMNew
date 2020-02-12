@@ -92,7 +92,8 @@
                                     <th>Make Payment</th>
                                     <th>View</th>
                                     <th>View with Barcodes</th>
-                                    <th runat="server" visible="false">Cancel Invoice</th>
+                                    <th>Cancel Invoice</th>
+                                    <th>Delete with Barcodes</th>
                                     <th>Mark Paid</th>
                                 </tr>
                                     </thead>
@@ -119,9 +120,12 @@
                                                    CssClass="btn btn-sm btn-success"><i class="fa fa-eye"></i> View</asp:LinkButton></td>
                                            
                                            
-                                           <td runat="server" visible="false">
+                                           <td>
                                                 <asp:LinkButton runat="server" ID="cancelInvoice" OnClick="cancelInvoice_Click" Visible="false" CssClass="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Cancel</asp:LinkButton></td>
-                                            <td runat="server">
+                                           <td>
+                                                <asp:LinkButton runat="server" ID="deleteInvoice" OnClick="deleteInvoice_Click" Visible="false" CssClass="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Delete</asp:LinkButton></td>
+                                           
+                                           <td runat="server">
                                                 <asp:LinkButton runat="server" ID="markPaid" OnClick="markPaid_Click" Visible="false" CssClass="btn btn-sm btn-primary"><i class="fa fa-credit-card"></i> Mark as Paid</asp:LinkButton></td>
                                        
                                        </tr>

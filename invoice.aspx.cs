@@ -383,6 +383,7 @@ public partial class invoice : System.Web.UI.Page
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert122", "alert('Invoice Cancellation Failed !');", true);
             }
+            BindData();
         }
         catch (Exception ex)
         {
@@ -397,13 +398,14 @@ public partial class invoice : System.Web.UI.Page
         {
             string paymentStatus = ((DataRowView)e.Item.DataItem)["paymentStatus"].ToString();
             string invoiceStatus = ((DataRowView)e.Item.DataItem)["invoiceStatus"].ToString();
-            
+            string invType = ((DataRowView)e.Item.DataItem)["invType"].ToString();
 
             LinkButton cancelInvoice = (LinkButton)e.Item.FindControl("cancelInvoice");
             LinkButton markPaid = (LinkButton)e.Item.FindControl("markPaid");
             LinkButton makePayment = (LinkButton)e.Item.FindControl("makePayment");
             LinkButton viewInv = (LinkButton)e.Item.FindControl("viewInv");
             LinkButton viewBarcodes = (LinkButton)e.Item.FindControl("viewBarcodes");
+            LinkButton deleteInvoice = (LinkButton)e.Item.FindControl("deleteInvoice");
             if (paymentStatus.Equals("unpaid") && invoiceStatus.Equals("Invoiced"))
             {
                 cancelInvoice.Visible = true;
@@ -412,7 +414,11 @@ public partial class invoice : System.Web.UI.Page
                 viewInv.Visible = true;
                 viewBarcodes.Visible = true;
             }
-            
+
+            if(invType.Equals("Trader Note") && paymentStatus.Equals("unpaid") && invoiceStatus.Equals("Invoiced"))
+            {
+                deleteInvoice.Visible = true;
+            }
 
         }
         catch (Exception ex)
@@ -515,6 +521,33 @@ public partial class invoice : System.Web.UI.Page
         try
         {
             Response.Redirect("multipleInvoice.aspx",true);
+        }
+        catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
+
+    protected void deleteInvoice_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            LinkButton btn = (LinkButton)(sender);
+            RepeaterItem rp1 = (RepeaterItem)(btn.NamingContainer);
+            Label invoiceid = (Label)rp1.FindControl("invoiceid");
+            invoiceCls obj = new invoiceCls();
+            int result = obj.deleteInvoice(invoiceid.Text);
+            if (result.Equals(1))
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert22", "alert('Invoice Deleted Successfully !');", true);
+
+            }
+            else
+            {
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alert122", "alert('Invoice Deletion Failed !');", true);
+            }
+            BindData();
         }
         catch (Exception ex)
         {

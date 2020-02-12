@@ -33,93 +33,7 @@ public partial class newLot : System.Web.UI.Page
         }
     }
 
-    protected string getCurrentMonth(string month)
-    {
-        switch (month)
-        {
-            case "January":
-                return "A";
-
-            case "February":
-                return "B";
-
-            case "March":
-                return "C";
-
-            case "April":
-                return "D";
-
-            case "May":
-                return "E";
-
-            case "June":
-                return "F";
-
-            case "July":
-                return "G";
-
-            case "August":
-                return "H";
-
-            case "September":
-                return "I";
-
-            case "October":
-                return "J";
-
-            case "November":
-                return "K";
-
-            case "December":
-                return "L";
-
-            default:
-                return "ERROR";
-
-        }
-    }
-
-    protected string getYearCode(string years)
-    {
-        switch (years)
-        {
-            case "2017": return "P";
-
-            case "2018":
-                return "Q";
-
-            case "2019":
-                return "R";
-
-            case "2020":
-                return "S";
-
-            case "2021":
-                return "T";
-
-            case "2022":
-                return "U";
-
-            case "2023":
-                return "V";
-
-            case "2024":
-                return "W";
-
-            case "2025":
-                return "X";
-
-            case "2026":
-                return "Y";
-
-            case "2027":
-                return "Z";
-
-            default:
-                return "ERROR";
-
-        }
-    }
+    
 
     protected void BindData()
     {
@@ -585,8 +499,9 @@ public partial class newLot : System.Web.UI.Page
     {
         try
         {
-            string years = getYearCode(DateTime.Now.ToString("yyyy"));
-            string month = getCurrentMonth(DateTime.Now.ToString("MMMM"));
+            utilityCls uObj = new utilityCls();
+            string years = uObj.getYearCode(DateTime.Now.ToString("yyyy"));
+            string month = uObj.getCurrentMonth(DateTime.Now.ToString("MMMM"));
             string msg = string.Empty;
             if (month == "ERROR" || years == "ERROR")
             {
@@ -622,6 +537,19 @@ public partial class newLot : System.Web.UI.Page
             BindData();
         }
         catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
+
+    protected void generateMulBora_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            Response.Redirect("multipleBora.aspx",true);
+        }
+        catch(Exception ex)
         {
             RecordExceptionCls rex = new RecordExceptionCls();
             rex.recordException(ex);

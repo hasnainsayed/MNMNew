@@ -173,7 +173,94 @@ public class newLotCls
         }
     }
 
-    public int updateLot(int BagID, string VendorID, string totalAmount, string BagDescription, string invoiceNo, string invoiceDate, string totalPiece, string lotImage, string lrno, string travelCost)
+    public string saveMulBora(string years, string months, string VendorID, string noOfBora, string makerId, string totalAmount, string invoiceNo, string invoiceDate,
+        string totalPiece, string lrno, string travelCost)
+    {
+        string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
+        SqlConnection connection = new SqlConnection(connectionString);
+        if (connection.State != ConnectionState.Open)
+        {
+            connection.Open();
+        }
+
+        SqlCommand command = connection.CreateCommand();
+        SqlTransaction transaction;
+
+        // Start a local transaction.
+        transaction = connection.BeginTransaction("mulBora");
+        command.Connection = connection;
+        command.Transaction = transaction;
+        string res = string.Empty;
+        try
+        {
+            command.CommandText = "select bagcode from Lot where years = @years and months = @months order by BagId desc";
+            command.Parameters.AddWithValue("@years", years);
+            command.Parameters.AddWithValue("@months", months);
+            DataTable lotDt = new DataTable();
+            lotDt.Load(command.ExecuteReader());
+            int code = 0;
+            if (!lotDt.Rows.Count.Equals(0))
+            {
+                code = 1 + Convert.ToInt32(lotDt.Rows[0]["bagcode"]);
+            }
+
+            for (int i = 0; i < Convert.ToInt32(noOfBora); i++)
+            {
+                command.CommandText = "insert into Lot (VendorID,years,months,bagcode,BagDescription,makerId,totalAmount,invoiceNo,invoiceDate,totalPiece,lrno,travelCost,isActive) " +
+                    "values (@VendorID,@years1,@months1,@bagcode,@Description,@makerId,@totalAmount,@invoiceNo,@invoiceDate,@totalPiece,@lrno,@travelCost,@isActive)";
+                command.Parameters.AddWithValue("@VendorID", VendorID);
+                command.Parameters.AddWithValue("@years1", years);
+                command.Parameters.AddWithValue("@months1", months);
+                command.Parameters.AddWithValue("@bagcode", code);
+                command.Parameters.AddWithValue("@Description", years + months + code);
+                command.Parameters.AddWithValue("@makerId", makerId);
+                command.Parameters.AddWithValue("@totalAmount", totalAmount);                
+                command.Parameters.AddWithValue("@invoiceNo", invoiceNo);
+                command.Parameters.AddWithValue("@invoiceDate", Convert.ToDateTime(invoiceDate).ToString("yyyy-MM-dd"));
+                command.Parameters.AddWithValue("@totalPiece", totalPiece);                
+                command.Parameters.AddWithValue("@lrno", lrno);
+                command.Parameters.AddWithValue("@travelCost", travelCost);
+                command.Parameters.AddWithValue("@isActive", 3);
+                command.ExecuteNonQuery();
+                command.Parameters.Clear();
+                code = code + 1;
+            }
+
+
+            transaction.Commit();
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+            res = "Bora's Added";
+
+        }
+
+        catch (Exception ex)
+        {
+            res = "Bora's Adding FAILED";
+            try
+            {
+                transaction.Rollback();
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+                RecordExceptionCls rex = new RecordExceptionCls();
+                rex.recordException(ex);
+
+            }
+            catch (Exception ex2)
+            {
+                if (connection.State == ConnectionState.Open)
+                    connection.Close();
+                RecordExceptionCls rex = new RecordExceptionCls();
+                rex.recordException(ex2);
+
+
+            }
+        }
+        return res;
+    }
+
+    public int updateLot(int BagID, string VendorID, string totalAmount, string BagDescription, string invoiceNo, string invoiceDate, string totalPiece,
+        string lotImage, string lrno, string travelCost)
     {
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
         SqlConnection connection = new SqlConnection(connectionString);

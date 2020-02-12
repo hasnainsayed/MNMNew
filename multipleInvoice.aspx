@@ -1,6 +1,18 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="multipleInvoice.aspx.cs" Inherits="multipleInvoice" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+     <script language="javascript" type="text/javascript">
+    function CallPrint(strid) {
+        var headstr = "<html><head><title></title></head><body>";
+  var footstr = "</body>";
+  var newstr = document.all.item(strid).innerHTML;
+  var oldstr = document.body.innerHTML;
+  document.body.innerHTML = headstr+newstr+footstr;
+  window.print();
+  document.body.innerHTML = oldstr;
+  return false;
+    }
+</script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <div class="content-wrapper">
@@ -20,8 +32,13 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Print Multiple Invoice</h3>
-
+                            <asp:Button ID="Button1" runat="server" Text="Print" onclientclick="javascript:CallPrint('print');" class="btn btn-sm btn-danger pull-right"/>
                         </div>
+
+                         <div id="print">
+                             <p runat="server" ID="printData">jh</p>
+                            
+                            </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
                             <div class="row">
@@ -73,6 +90,8 @@
 
                             </div>
                         </div>
+
+                       
                     </div>
                 </div>
             </div>

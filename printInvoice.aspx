@@ -6,7 +6,7 @@
 <head runat="server">
     <title></title>
 </head>
-<body>
+<body id="getthis">
     <div runat="server" id="err"></div>
          <p><b>PACKAGING LIST WITH ESTIMATE MEMO</b></p>
                             <table width="100%" style="border-collapse: collapse ;border:1px solid;text-align:left" border="1px;" cellpadding="30px" cellspacing="3">
