@@ -548,6 +548,7 @@
                                 </a>
 
                                 <ul class="treeview-menu">
+                                    <li id="li72" runat="server"><a href="ReportsModule.aspx"><i class="fa fa-circle-o"></i>Reports Module</a></li>
                                     <li id="li68" runat="server"><a href="vendorPayable.aspx"><i class="fa fa-circle-o"></i>Vendor Payable</a></li>
                                     <li id="li69" runat="server"><a href="getAllReceivable.aspx"><i class="fa fa-circle-o"></i>Receivable</a></li>
                                     <li id="li2" runat="server"><a href="notListed.aspx"><i class="fa fa-circle-o"></i>SKU Not Listed</a></li>

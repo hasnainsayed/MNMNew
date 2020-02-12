@@ -153,7 +153,9 @@
                                              <td><asp:CheckBox ID="userWork" runat="server" /> User Work</td>
                                              <td><asp:CheckBox ID="barcodeStatus" runat="server" /> Barcode Status</td>
                                              <td><asp:CheckBox ID="styleStatus" runat="server" /> Style Status</td>
-                                             <td></td><td></td><td></td>
+                                             <td><asp:CheckBox ID="ReportsModule" runat="server" /> Reports Module</td>
+                                             <td><asp:CheckBox ID="deleteInvoice" runat="server" /> Delete Invoice</td>
+                                             <td></td>
                                          </tr>
                                          <tr><th colspan="6">Bulk</th></tr>
                                          <tr>                                             

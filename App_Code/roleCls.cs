@@ -29,7 +29,7 @@ public class roleCls
                     returnItem, string statusControl, string cancleBarcode, string changeMRP, string deleteWrongBarcode, string
                     pickDispatch, string pickCancel, string notListed, string skuInventory, string dumps, string
                     salesDump, string dispatchedDump, string warehouseMap, string userWork, string barcodeStatus, string
-                    styleStatus, string bulkListing, string saleScan, string saleExcel, string dispatchScan, string dispatchExcel, string hdnID,string pickList, string tickets, string addTicket)
+                    styleStatus, string ReportsModule, string deleteInvoice, string bulkListing, string saleScan, string saleExcel, string dispatchScan, string dispatchExcel, string hdnID,string pickList, string tickets, string addTicket)
     {
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
         SqlConnection connection = new SqlConnection(connectionString);
@@ -108,6 +108,8 @@ public class roleCls
             command.Parameters.AddWithValue("@userWork", userWork);
             command.Parameters.AddWithValue("@barcodeStatus", barcodeStatus);
             command.Parameters.AddWithValue("@styleStatus", styleStatus);
+            command.Parameters.AddWithValue("@ReportsModule", ReportsModule);
+            command.Parameters.AddWithValue("@deleteInvoice", deleteInvoice);
             command.Parameters.AddWithValue("@bulkListing", bulkListing);
             command.Parameters.AddWithValue("@saleScan", saleScan);
             command.Parameters.AddWithValue("@saleExcel", saleExcel);
@@ -130,7 +132,7 @@ public class roleCls
                     "returnItem,statusControl,cancleBarcode,changeMRP,deleteWrongBarcode," +
                     "pickDispatch,pickCancel,notListed,skuInventory,dumps," +
                     "salesDump,dispatchedDump,warehouseMap,userWork,barcodeStatus," +
-                    "styleStatus,bulkListing,saleScan,saleExcel,dispatchScan,dispatchExcel,ColumnTableSetting,StyleColumnSetting,logs,pickList,tickets,addTicket) values (@roleName,@LocationType,@PhysicalLocation,@VirtualLocation,@Vendors,@newLot,@hsnCode,@courier,@usermaster,@rolemasters,@ItemCategory,@Size,@Category2,@Category3,@Category4,@Category5," +
+                    "styleStatus,ReportsModule,deleteInvoice,bulkListing,saleScan,saleExcel,dispatchScan,dispatchExcel,ColumnTableSetting,StyleColumnSetting,logs,pickList,tickets,addTicket) values (@roleName,@LocationType,@PhysicalLocation,@VirtualLocation,@Vendors,@newLot,@hsnCode,@courier,@usermaster,@rolemasters,@ItemCategory,@Size,@Category2,@Category3,@Category4,@Category5," +
                     "@Column1,@Column2,@Column3,@Column4,@Column5,@Column6,@Column7,@Column8," +
                     "@Column9,@Column10,@Column11,@Column12,@Column13,@Column14,@Column15," +
                     "@Column16,@Column17,@Column18,@Column19,@Column20," +
@@ -138,7 +140,7 @@ public class roleCls
                     "@returnItem,@statusControl,@cancleBarcode,@changeMRP,@deleteWrongBarcode," +
                     "@pickDispatch,@pickCancel,@notListed,@skuInventory,@dumps," +
                     "@salesDump,@dispatchedDump,@warehouseMap,@userWork,@barcodeStatus," +
-                    "@styleStatus,@bulkListing,@saleScan,@saleExcel,@dispatchScan,@dispatchExcel,@ColumnTableSetting,@StyleColumnSetting,@logs,@pickList,@tickets,@addTicket)";
+                    "@styleStatus,@ReportsModule,@deleteInvoice,@bulkListing,@saleScan,@saleExcel,@dispatchScan,@dispatchExcel,@ColumnTableSetting,@StyleColumnSetting,@logs,@pickList,@tickets,@addTicket)";
                 
 
                 command.ExecuteNonQuery();
@@ -160,7 +162,7 @@ public class roleCls
                     "deleteWrongBarcode=@deleteWrongBarcode," +
                     "pickDispatch=@pickDispatch,pickCancel=@pickCancel,notListed=@notListed,skuInventory=@skuInventory,dumps=@dumps," +
                     "salesDump=@salesDump,dispatchedDump=@dispatchedDump,warehouseMap=@warehouseMap,userWork=@userWork,barcodeStatus=@barcodeStatus," +
-                    "styleStatus=@styleStatus,bulkListing=@bulkListing,saleScan=@saleScan,saleExcel=@saleExcel," +
+                    "styleStatus=@styleStatus, ReportsModule=@ReportsModule, deleteInvoice=@deleteInvoice, bulkListing=@bulkListing,saleScan=@saleScan,saleExcel=@saleExcel," +
                     "dispatchScan=@dispatchScan,dispatchExcel=@dispatchExcel,ColumnTableSetting=@ColumnTableSetting," +
                     "StyleColumnSetting=@StyleColumnSetting,logs=logs+'" + logs + "',pickList=@pickList,tickets=@tickets,addTicket=@addTicket where roleId=@roleId";
                 command.Parameters.AddWithValue("@roleId", hdnID);
