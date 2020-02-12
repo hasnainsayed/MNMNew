@@ -108,6 +108,7 @@ public partial class rolemaster : System.Web.UI.Page
             barcodeStatus.Checked = false;
             styleStatus.Checked = false;
             ReportsModule.Checked = false;
+            deleteInvoice.Checked = false;
             bulkListing.Checked = false;
             saleScan.Checked = false;
             saleExcel.Checked = false;
@@ -147,7 +148,7 @@ public partial class rolemaster : System.Web.UI.Page
                     returnItem.Checked.ToString(), statusControl.Checked.ToString(), cancleBarcode.Checked.ToString(), changeMRP.Checked.ToString(), deleteWrongBarcode.Checked.ToString(),
                     pickDispatch.Checked.ToString(), pickCancel.Checked.ToString(), notListed.Checked.ToString(), skuInventory.Checked.ToString(), dumps.Checked.ToString(),
                     salesDump.Checked.ToString(), dispatchedDump.Checked.ToString(), warehouseMap.Checked.ToString(), userWork.Checked.ToString(), barcodeStatus.Checked.ToString(),
-                    styleStatus.Checked.ToString(), ReportsModule.Checked.ToString(), bulkListing.Checked.ToString(), saleScan.Checked.ToString(), saleExcel.Checked.ToString(), dispatchScan.Checked.ToString(), dispatchExcel.Checked.ToString(),hdnID.Text, pickList.Checked.ToString(), tickets.Checked.ToString(), addTicket.Checked.ToString());
+                    styleStatus.Checked.ToString(), ReportsModule.Checked.ToString(),deleteInvoice.Checked.ToString(), bulkListing.Checked.ToString(), saleScan.Checked.ToString(), saleExcel.Checked.ToString(), dispatchScan.Checked.ToString(), dispatchExcel.Checked.ToString(),hdnID.Text, pickList.Checked.ToString(), tickets.Checked.ToString(), addTicket.Checked.ToString());
                 if (success.Equals(0))
                 {
                     clearData();
@@ -267,6 +268,14 @@ public partial class rolemaster : System.Web.UI.Page
             else
             {
                 ReportsModule.Checked = Convert.ToBoolean(roles.Rows[0]["ReportsModule"].ToString());
+            }
+            if (roles.Rows[0]["deleteInvoice"].ToString().Equals(""))
+            {
+                deleteInvoice.Checked = false;
+            }
+            else
+            {
+                deleteInvoice.Checked = Convert.ToBoolean(roles.Rows[0]["deleteInvoice"].ToString());
             }
             bulkListing.Checked = Convert.ToBoolean(roles.Rows[0]["bulkListing"].ToString());
             saleScan.Checked = Convert.ToBoolean(roles.Rows[0]["saleScan"].ToString());
