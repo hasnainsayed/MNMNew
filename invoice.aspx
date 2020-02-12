@@ -72,7 +72,8 @@
                                                 <td><asp:LinkButton ID="searchSoldItem" runat="server" OnClick="searchSoldItem_Click" CssClass="btn btn-sm btn-warning"><i class="fa fa-search"></i> Search</asp:LinkButton></td>
                                             </tr>
                                 <tr><td class="pull-right" colspan="3"><asp:LinkButton runat="server" ID="addPayments" CssClass="btn btn-sm btn-primary" OnClick="addPayments_Click"><i class="fa fa-plus"></i> Add Payments</asp:LinkButton></td>
-                                    <td  colspan="3"><asp:LinkButton runat="server" ID="addTrader" CssClass="btn btn-sm btn-warning" OnClick="addTrader_Click"><i class="fa fa-plus"></i> Add Trader Notes</asp:LinkButton></td>
+                                    <td><asp:LinkButton runat="server" ID="addTrader" CssClass="btn btn-sm btn-warning" OnClick="addTrader_Click"><i class="fa fa-plus"></i> Add Trader Notes</asp:LinkButton></td>
+                                    <td  colspan="2"><asp:LinkButton runat="server" ID="multipleInvoice" CssClass="btn btn-sm btn-info" OnClick="multipleInvoice_Click"><i class="fa fa-plus"></i> Multiple Invoice</asp:LinkButton></td>
 
                                 </tr>
                                         </table>
@@ -90,6 +91,7 @@
                                     <th>Payment Status</th>
                                     <th>Make Payment</th>
                                     <th>View</th>
+                                    <th>View with Barcodes</th>
                                     <th runat="server" visible="false">Cancel Invoice</th>
                                     <th>Mark Paid</th>
                                 </tr>
@@ -111,7 +113,13 @@
                                            <td runat="server"><asp:LinkButton runat="server" ID="makePayment" Visible="false" CssClass="btn btn-bitbucket btn-sm" OnClick="makePayment_Click"><i class="fa fa-money"></i> Payment</asp:LinkButton></td>
                                            <td>
                                                <asp:LinkButton ID="viewInv" Visible="false" runat="server" OnClick="viewInv_Click" CssClass="btn btn-sm btn-warning"><i class="fa fa-eye"></i> View</asp:LinkButton></td>
-                                            <td runat="server" visible="false">
+                                           
+                                           <td>
+                                               <asp:LinkButton ID="viewBarcodes" Visible="false" runat="server" OnClick="viewBarcodes_Click"
+                                                   CssClass="btn btn-sm btn-success"><i class="fa fa-eye"></i> View</asp:LinkButton></td>
+                                           
+                                           
+                                           <td runat="server" visible="false">
                                                 <asp:LinkButton runat="server" ID="cancelInvoice" OnClick="cancelInvoice_Click" Visible="false" CssClass="btn btn-sm btn-danger"><i class="fa fa-remove"></i> Cancel</asp:LinkButton></td>
                                             <td runat="server">
                                                 <asp:LinkButton runat="server" ID="markPaid" OnClick="markPaid_Click" Visible="false" CssClass="btn btn-sm btn-primary"><i class="fa fa-credit-card"></i> Mark as Paid</asp:LinkButton></td>

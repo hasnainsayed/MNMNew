@@ -59,6 +59,42 @@ public class invoiceCls
         return invTable;
     }
 
+    public DataTable getAllInvoice()
+    {
+        DataTable invTable = new DataTable();
+        string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
+        SqlConnection connection = new SqlConnection(connectionString);
+        if (connection.State != ConnectionState.Open)
+        {
+            connection.Open();
+        }
+
+        SqlCommand command = connection.CreateCommand();
+        SqlTransaction transaction;
+
+        // Start a local transaction.
+        transaction = connection.BeginTransaction("allInv");
+        command.Connection = connection;
+        command.Transaction = transaction;
+        try
+        {
+            command.CommandText = "SELECT i.invid,concat(i.invid,'-',i.custname) AS invName FROM invoice i ORDER BY i.invid desc";
+            invTable.Load(command.ExecuteReader());
+            transaction.Commit();
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+
+        }
+        catch (Exception ex)
+        {
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+            RecordExceptionCls rec = new RecordExceptionCls();
+            rec.recordException(ex);
+        }
+        return invTable;
+    }
+
     public DataTable getInvoiceListSearch(DataTable search)
     {
         DataTable invTable = new DataTable();
