@@ -2,6 +2,18 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+    <script language="javascript" type="text/javascript">
+    function CallPrint(strid) {
+        var headstr = "<html><head><title></title></head><body>";
+  var footstr = "</body>";
+  var newstr = document.all.item(strid).innerHTML;
+  var oldstr = document.body.innerHTML;
+  document.body.innerHTML = headstr+newstr+footstr;
+  window.print();
+  document.body.innerHTML = oldstr;
+  return false;
+    }
+</script>
 
     <style>
        .btn-group-lg > .btn, .btn-lg {
@@ -147,11 +159,14 @@
 
         <div class="box box-primary" id="rprtid" runat="server" >
                       <div class="box box-primary">
+                          <div runat="server" id="buttons" visible="false">
                           <h3 style='padding-left:17px;'><asp:Label runat="server" ID="lblrpt"></asp:Label>
-                          <asp:LinkButton ID="btnexporttoexcel" runat="server" CssClass="btn btn-success pull-right btn-round" Visible="false" OnClick="btnexporttoexcel_Click"><i class="fa  fa-file-excel-o"></i> Export</asp:LinkButton></h3>
+                          <asp:LinkButton ID="btnexporttoexcel" runat="server" CssClass="btn btn-success pull-right btn-round"  OnClick="btnexporttoexcel_Click"><i class="fa  fa-file-excel-o"></i> Export</asp:LinkButton>
+                          <asp:Button ID="Button2" runat="server" Text="Print"  onclientclick="javascript:CallPrint('print');" class="btn btn-danger pull-right btn-round"/></h3>
+                              </div>
                     <div class="box-body">
                         <div class="row">
-                        <div class="box-body table-responsive no-padding">
+                        <div class="box-body table-responsive no-padding" id="print">
                             <asp:PlaceHolder ID="PlaceHolder2" runat="server"></asp:PlaceHolder>
                         </div>
                          </div>

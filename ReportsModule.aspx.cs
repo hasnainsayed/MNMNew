@@ -31,6 +31,7 @@ public partial class ReportsModule : System.Web.UI.Page
         { 
             lblreport.Text = "VendorWise Stock";
             lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
             lblrpt.Visible = true;
             getData();
@@ -48,6 +49,7 @@ public partial class ReportsModule : System.Web.UI.Page
         { 
             lblreport.Text = "Stock";
             lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
             lblrpt.Visible = true;
             getData();
@@ -65,6 +67,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "VendorWise Stock Shop";
             lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
             lblrpt.Visible = true;
             getData();
@@ -83,6 +86,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "VendorWise Stock Warehouse";
             lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
             lblrpt.Visible = true;
             getData();
@@ -102,6 +106,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "Sales With Margin";
             ModalPopupExtender1.Show();
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
         }
         catch (Exception ex)
@@ -118,6 +123,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "Sales For Warehouse";
             ModalPopupExtender1.Show();
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
         }
         catch (Exception ex)
@@ -134,6 +140,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "Sales For Shop";
             ModalPopupExtender1.Show();
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
         }
         catch (Exception ex)
@@ -150,6 +157,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             lblreport.Text = "Purchase With Margin";
             lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
             btnexporttoexcel.Visible = true;
             lblrpt.Visible = true;
             getData();
