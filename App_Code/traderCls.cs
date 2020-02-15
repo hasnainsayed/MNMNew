@@ -276,5 +276,45 @@ public class traderCls
         }
     }
 
-   
+    public DataTable getInvoiceData(string invoiceId)
+    {
+        DataTable invTable = new DataTable();
+        string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
+        SqlConnection connection = new SqlConnection(connectionString);
+        if (connection.State != ConnectionState.Open)
+        {
+            connection.Open();
+        }
+
+        SqlCommand command = connection.CreateCommand();
+        SqlTransaction transaction;
+
+        // Start a local transaction.
+        transaction = connection.BeginTransaction("allInv");
+        command.Connection = connection;
+        command.Transaction = transaction;
+        try
+        {
+            command.CommandText = "SELECT u.StyleID as styleDrp,u.SizeID as Size,u.piecePerPacket,u.mrp/u.piecePerPacket AS mrp,u.purchaseRate/u.piecePerPacket AS purchaseRate,s.sellingprice AS sp,COUNT(u.StyleID) AS quantity FROM salesrecord s inner JOIN StockUpInward u ON s.itemid=u.StockupID WHERE s.invoiceid=@invoiceid group BY u.StyleID,u.SizeID,u.piecePerPacket,u.mrp,u.purchaseRate,s.sellingprice " +
+                "UNION ALL " +
+                "SELECT u1.StyleID as styleDrp,u1.SizeID as Size,u1.piecePerPacket,u1.mrp / u1.piecePerPacket AS mrp, u1.purchaseRate / u1.piecePerPacket AS purchaseRate, s1.sellingprice AS sp, COUNT(u1.StyleID) AS quantity FROM salesrecord s1 inner JOIN ArchiveStockUpInward u1 ON s1.archiveid = u1.ArchiveStockupID WHERE s1.invoiceid = @invoiceid1 group BY u1.StyleID,u1.SizeID,u1.piecePerPacket,u1.mrp,u1.purchaseRate,s1.sellingprice";
+
+
+            command.Parameters.AddWithValue("invoiceId", invoiceId);
+            command.Parameters.AddWithValue("invoiceId1", invoiceId);
+            invTable.Load(command.ExecuteReader());
+            transaction.Commit();
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+
+        }
+        catch (Exception ex)
+        {
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
+            RecordExceptionCls rec = new RecordExceptionCls();
+            rec.recordException(ex);
+        }
+        return invTable;
+    }
 }
