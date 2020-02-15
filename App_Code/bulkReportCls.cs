@@ -182,7 +182,7 @@ public class bulkReportCls
                        "SUM(a.purchaseRate) AS totalpurchase, SUM(s.sellingprice) AS totalsales, " +
                        "c.c1name, a.purchaseRate, a.SystemDate " +
                        "FROM ArchiveStockUpInward a " +
-                       "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 3 s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate) b GROUP BY c1name ORDER BY c1name";
+                       "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 3 and  s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate) b GROUP BY c1name ORDER BY c1name";
             }
 
             else if (btnType.Equals("Purchase With Margin"))
@@ -373,6 +373,17 @@ public class bulkReportCls
                     , Math.Round(Convert.ToDecimal(twnty5), 2), Math.Round(Convert.ToDecimal(twnty6), 2), Math.Round(Convert.ToDecimal(twnty7), 2)
                     , Math.Round(Convert.ToDecimal(twnty8), 2), Math.Round(Convert.ToDecimal(twnty9), 2), Math.Round(Convert.ToDecimal(thrty), 2)
                     , Math.Round(Convert.ToDecimal(thrty1), 2), Math.Round(Convert.ToDecimal(thrty2), 2), Math.Round(Convert.ToDecimal(thrty3), 2), Math.Round(Convert.ToDecimal(thrty4), 2));
+            }
+
+
+            else if (btnType.Equals("LR Stock"))
+            {
+                DataRow dr = catTable.NewRow();
+                foreach(DataColumn dc in catTable.Columns)
+                {
+                    dr[dc] = Math.Round(Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x[dc]))),2);
+                }
+                catTable.Rows.Add(dr);
             }
 
 
