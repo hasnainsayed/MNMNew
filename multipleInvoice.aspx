@@ -32,13 +32,10 @@
                     <div class="box box-primary">
                         <div class="box-header with-border">
                             <h3 class="box-title">Print Multiple Invoice</h3>
-                            <asp:Button ID="Button1" runat="server" Text="Print" onclientclick="javascript:CallPrint('print');" class="btn btn-sm btn-danger pull-right"/>
+                            
                         </div>
 
-                         <div id="print">
-                             <p runat="server" ID="printData">jh</p>
-                            
-                            </div>
+                        
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
                             <div class="row">
@@ -80,13 +77,26 @@
                                         <div class="col-md-12">
                                             <div class="box-body table-responsive ">
                                                 <div class="box-footer btn-toolbar " style="margin-left: 0px;">
-                                                  <asp:LinkButton runat="server" ID="printInvoices" OnClick="printInvoices_Click" CssClass="btn btn-sm btn-success"><i class="fa fa-print"></i> Print</asp:LinkButton>
+                                                  <asp:LinkButton runat="server" ID="printInvoices" OnClick="printInvoices_Click" CssClass="btn btn-sm btn-success"><i class="fa fa-print"></i> Get Print Data</asp:LinkButton>
                                                 </div>
                                             </div>
                                         </div>
                                     </ContentTemplate>
-                                   
+                                    <Triggers>
+				<asp:PostBackTrigger ControlID="printInvoices" />
+                 
+			</Triggers>
                                 </asp:UpdatePanel>
+
+
+
+                                 <div id="print">
+
+                                     <asp:Button ID="Button1" runat="server" Text="Print" Visible="false" onclientclick="javascript:CallPrint('print');" class="btn btn-sm btn-danger pull-right"/>
+                                     <br />
+                             <p runat="server" ID="printData"></p>
+                            
+                            </div>
 
                             </div>
                         </div>

@@ -50,7 +50,8 @@ public partial class viewInvoice : System.Web.UI.Page
                 newSales.Columns.Add("srNo");
                 newSales.Columns.Add("BarcodeNo");
                 newSales.Columns.Add("Title");
-                newSales.Columns.Add("checkNo", typeof(Int32));               
+                newSales.Columns.Add("checkNo");               
+               //newSales.Columns.Add("checkNo", typeof(Int32));               
                 newSales.Columns.Add("Qnty", typeof(Int32));
                 newSales.Columns.Add("Pieces");
                 newSales.Columns.Add("taxableamount");
@@ -62,6 +63,7 @@ public partial class viewInvoice : System.Web.UI.Page
                 newSales.Columns.Add("sellingprice");
 
                 newSales.Columns.Add("piecePerPacket");
+                newSales.Columns.Add("checks", typeof(Int32));
 
                 // merge columns
                 /*for (int i = 1; i <= sales.Rows.Count; i++)
@@ -69,14 +71,21 @@ public partial class viewInvoice : System.Web.UI.Page
                     DataRow[] foundAuthors = newSales.Select("Barcode like '" + BarcodeNo + "%'");
                 }*/
                 int i = 0;
-                foreach(DataRow dRow in sales.Rows)
-                {
-                    DataRow[] foundAuthors = newSales.Select("BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0,dRow["BarcodeNo"].ToString().Length -3)  + "%' and sellingprice='" + dRow["sellingprice"] + "'");
-                    if(foundAuthors.Length.Equals(0)) // add in new table
-                    {
-                        DataRow[] salesRow = sales.Select("BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0, dRow["BarcodeNo"].ToString().Length - 3) + "%' and sellingprice='" + dRow["sellingprice"] + "'");
 
+                DataColumn[] keyColumns = new DataColumn[1];
+                keyColumns[0] = newSales.Columns["srNo"];
+                newSales.PrimaryKey = keyColumns;
+
+                char c1 = 'A';
+                foreach (DataRow dRow in sales.Rows)
+                {
+                    
+                    DataRow[] foundAuthors = newSales.Select("BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0,dRow["BarcodeNo"].ToString().Length -3)  + "%' and sellingprice='" + dRow["sellingprice"] + "'");
+                    
+                    if (foundAuthors.Length.Equals(0)) // add in new table
+                    {
                         
+                        DataRow[] salesRow = sales.Select("BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0, dRow["BarcodeNo"].ToString().Length - 3) + "%' and sellingprice='" + dRow["sellingprice"] + "'");
 
                         //object sumSellingPrice;
                         //sumSellingPrice = sales.Compute("Sum(sellingprice)", "BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0, dRow["BarcodeNo"].ToString().Length - 3) + "%' and sellingprice='" + dRow["sellingprice"] + "'");
@@ -102,13 +111,22 @@ public partial class viewInvoice : System.Web.UI.Page
                         object sumQnty;
                         sumQnty = sales.Compute("Count(sid)", "BarcodeNo like '" + dRow["BarcodeNo"].ToString().Substring(0, dRow["BarcodeNo"].ToString().Length - 3) + "%' and sellingprice='" + dRow["sellingprice"] + "'");
 
-
-                        newSales.Rows.Add(++i, salesRow[0]["BarcodeNo"].ToString(), salesRow[0]["Title"].ToString(), salesRow[0]["checkNo"].ToString(), (Int32)sumQnty, sumpiecePerPacket.ToString(),
+                        string checks = salesRow[0]["checkNo"].ToString();
+                        DataRow[] findCheck = newSales.Select(" checkNo='" + checks + "'");
+                                               
+                        if (!findCheck.Length.Equals(0))
+                        {
+                            checks = checks + c1;
+                            c1++;
+                        }
+                        
+                        newSales.Rows.Add(++i, salesRow[0]["BarcodeNo"].ToString(), salesRow[0]["Title"].ToString(), checks, (Int32)sumQnty, sumpiecePerPacket.ToString(),
                             sumtaxableamount.ToString(),(Convert.ToDecimal(sumtaxableamount.ToString())+Convert.ToDecimal(sumigstamnt.ToString()) + Convert.ToDecimal(sumcgstamnt.ToString()) + Convert.ToDecimal(sumsgstamnt.ToString())).ToString(),
                     sumigstamnt.ToString(), sumcgstamnt.ToString(), sumsgstamnt.ToString(), salesRow[0]["gstpercent"].ToString(), 
-                    salesRow[0]["sellingprice"].ToString(), salesRow[0]["piecePerPacket"].ToString());
+                    salesRow[0]["sellingprice"].ToString(), salesRow[0]["piecePerPacket"].ToString(), salesRow[0]["checkNo"].ToString());
                        
                     }
+                    
                 }
 
                 custname.Text = invoice.Rows[0]["custname"].ToString().ToUpper();
@@ -192,10 +210,19 @@ public partial class viewInvoice : System.Web.UI.Page
                 }*/
 
                 DataView dv = newSales.DefaultView;
-                dv.Sort = "checkNo asc";
+                dv.Sort = "checks asc";
                 DataTable sortedDT = dv.ToTable();
+                /*DataColumn[] keyColumns = new DataColumn[1];
+                keyColumns[0] = sortedDT.Columns["srNo"];
+                sortedDT.PrimaryKey = keyColumns;
 
-                rpt_Invoice.DataSource = sortedDT;
+                foreach (DataRow drow in sortedDT.Rows)
+                {
+                    if (sortedDT.Rows.Contains(drow["checkNo"]))
+                        drow["checkNo"] = 111.ToString();
+                }*/
+
+                 rpt_Invoice.DataSource = sortedDT;
                 rpt_Invoice.DataBind();
 
                 /*string barCode = sales.Rows[0]["salesidgivenbyvloc"].ToString();

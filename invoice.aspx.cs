@@ -415,10 +415,18 @@ public partial class invoice : System.Web.UI.Page
                 viewBarcodes.Visible = true;
             }
 
-            if(invType.Equals("Trader Note") && paymentStatus.Equals("unpaid") && invoiceStatus.Equals("Invoiced"))
+            styleCls sObj = new styleCls();
+            DataTable dt = sObj.getTableColwithID("roles", "roleId", Convert.ToInt32(Session["userrole"].ToString()), "deleteInvoice");
+            if (dt.Rows[0]["deleteInvoice"].Equals("True"))
             {
-                deleteInvoice.Visible = true;
+                if (invType.Equals("Trader Note") && paymentStatus.Equals("unpaid") && invoiceStatus.Equals("Invoiced"))
+                {
+                    deleteInvoice.Visible = true;
+                }
+
             }
+
+            
 
         }
         catch (Exception ex)
@@ -538,7 +546,7 @@ public partial class invoice : System.Web.UI.Page
             Label invoiceid = (Label)rp1.FindControl("invoiceid");
             invoiceCls obj = new invoiceCls();
             int result = obj.deleteInvoice(invoiceid.Text);
-            if (result.Equals(1))
+            if (result.Equals(0))
             {
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "alert22", "alert('Invoice Deleted Successfully !');", true);
 

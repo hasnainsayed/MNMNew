@@ -51,20 +51,20 @@ public partial class multipleInvoice : System.Web.UI.Page
     {
         try
         {
-            printData.InnerHtml = string.Empty;
+            printData.InnerHtml = string.Empty; Button1.Visible = false;
             DataTable drops = new DataTable();
             drops.Columns.Add("invid");
             string datas = string.Empty;
             foreach (RepeaterItem itemEquipment in rpt_dropdown.Items)
             {
                 DropDownList drp_dropdown = (DropDownList)itemEquipment.FindControl("drp_dropdown");                
-                string givenurl = @"http://localhost:54565/printInvoice.aspx?paraSopLink=ftko0ji9hu8&paraSopT=" + drp_dropdown.SelectedValue;
+                string givenurl = @"http://mnmweb.dzvdesk.com/printInvoice.aspx?paraSopLink=ftko0ji9hu8&paraSopT=" + drp_dropdown.SelectedValue;
                 HtmlDocument w = new HtmlWeb().Load(givenurl);                
                 string thisinvoice = w.GetElementbyId("getthis").InnerHtml.ToString();
                 datas += thisinvoice;                
             }
             printData.InnerHtml = datas;
-            
+            Button1.Visible = true;
         }
         catch (Exception ex)
         {

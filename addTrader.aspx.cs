@@ -34,6 +34,12 @@ public partial class addTrader : System.Web.UI.Page
 
                     // bind style repeater
                     bindStyle();
+
+                    invoiceCls iobj = new invoiceCls();
+                    DataTable invoicelist = iobj.getAllInvoice();
+                    invoice.DataSource = invoicelist;
+                    invoice.DataBind();
+                    invoice.Items.Insert(0, new ListItem("---- Select ----", "-1"));
                 }
                 else
                 {
@@ -400,6 +406,22 @@ public partial class addTrader : System.Web.UI.Page
             lotPieces.Text = lotDt.Rows[0]["totalPiece"].ToString();
             barcodePiece.Text = pieceCount.ToString();
             avlPiece.Text = pieceAvailable.ToString();
+        }
+        catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
+
+    protected void getInvoiceData_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            traderCls obj = new traderCls();
+            DataTable dt = obj.getInvoiceData(invoice.SelectedValue);
+            rptStyle.DataSource = dt;
+            rptStyle.DataBind();
         }
         catch (Exception ex)
         {

@@ -39,6 +39,17 @@
                                 </div>
 
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Invoice</label>
+                                        <asp:DropDownList runat="server" ID="invoice" CssClass="form-control select2" DataTextField="invName" DataValueField="invid"></asp:DropDownList>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <asp:LinkButton runat="server" CssClass="btn btn-sm btn-primary" ID="getInvoiceData" OnClick="getInvoiceData_Click">Get Data</asp:LinkButton>
+                                </div>
+
+                                <div class="col-md-6">
                                     <table class="table table-bordered table-striped">
                                         <tr>
                                             <th>Lot Pieces</th>

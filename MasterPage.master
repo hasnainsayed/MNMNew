@@ -558,6 +558,7 @@
                                     <li id="li7" runat="server"><a href="dispatchedDump.aspx"><i class="fa fa-circle-o"></i>Download Dispatched Dump</a></li>
 									<li id="li36" runat="server"><a href="salesNdispatchdump.aspx"><i class="fa fa-circle-o"></i>Download Dispatched & Stock</a></li>
                                     <li id="li65" runat="server" visible="false"><a href="packaging.aspx"><i class="fa fa-circle-o"></i>Packaging</a></li>
+                                    <li id="li789" runat="server"><a href="shopTransferReport.aspx"><i class="fa fa-circle-o"></i>Shop Transfer</a></li>
                                     <%--<li id="li12" runat="server"><a href="warehouseMap.aspx"><i class="fa fa-circle-o"></i>Warehouse Map</a></li>--%>
                                     <%--<li id="li12" runat="server"><a href="warehouseMap.aspx"><i class="fa fa-circle-o"></i>Warehouse Map</a></li>--%>
 
