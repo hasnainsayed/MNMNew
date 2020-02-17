@@ -163,8 +163,8 @@ public class bulkReportCls
                        "SUM(p121to150) AS 'Purchase 121-150', SUM(s121to150) AS 'Sales 121-150',ROUND(((SUM(s121to150) - SUM(p121to150)) / nullif(SUM(s121to150), 0)) * 100, 2) AS 'Margin 121-150', " +
                        "SUM(p151to180) AS 'Purchase 151-180', SUM(s151to180) AS 'Sales 151-180',ROUND(((SUM(s151to180) - SUM(p151to180)) / nullif(SUM(s151to180), 0)) * 100, 2) AS 'Margin 151-180', " +
                        "SUM(p181to240) AS 'Purchase 181-240', SUM(s181to240) AS 'Sales 181-240',ROUND(((SUM(s181to240) - SUM(p181to240)) / nullif(SUM(s181to240), 0)) * 100, 2) AS 'Margin 181-240', " +
-                       "SUM(p241to300) AS 'Purchase 241-300', SUM(s241to300) AS 'Sales 241-300',ROUND(((SUM(s241to300) - SUM(p241to300)) / nullif(SUM(s241to300), 0)) * 100, 2) AS 'Margin 240-300', " +
-                       "SUM(p301to360) AS 'Purchase 301-360',  SUM(s301to360) AS 'Sales 301-360',ROUND(((SUM(s301to360) - SUM(p301to360)) / nullif(SUM(s301to360), 0)) * 100, 2) AS 'Margin 300-360', " +
+                       "SUM(p241to300) AS 'Purchase 241-300', SUM(s241to300) AS 'Sales 241-300',ROUND(((SUM(s241to300) - SUM(p241to300)) / nullif(SUM(s241to300), 0)) * 100, 2) AS 'Margin 241-300', " +
+                       "SUM(p301to360) AS 'Purchase 301-360',  SUM(s301to360) AS 'Sales 301-360',ROUND(((SUM(s301to360) - SUM(p301to360)) / nullif(SUM(s301to360), 0)) * 100, 2) AS 'Margin 301-360', " +
                        "SUM(pmore360) AS 'Purchase 360+', SUM(smore360) AS 'Sales 360+',ROUND(((SUM(smore360) - SUM(pmore360)) / nullif(SUM(smore360), 0)) * 100, 2) AS 'Margin 360+', " +
                        "SUM(totalpurchase) AS 'Total Purchase', SUM(totalsales) AS 'Total Sales',ROUND(((SUM(totalsales) - SUM(totalpurchase)) / nullif(SUM(totalsales), 0)) * 100, 2) AS 'Total Margin' " +
                        "FROM( " +
@@ -295,170 +295,299 @@ public class bulkReportCls
             if (btnType.Equals("VendorWise Stock") || btnType.Equals("VendorWise Stock Shop") || btnType.Equals("VendorWise Stock Warehouse"))
             {
 
+                if (!catTable.Rows.Count.Equals(0))
+                {
+                    object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["0-30"])))).ToString();
+                    object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["31-60"])))).ToString();
+                    object three = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["61-90"])))).ToString();
+                    object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["91-120"])))).ToString();
+                    object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["121-150"])))).ToString();
+                    object six = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["151-180"])))).ToString();
+                    object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["181-240"])))).ToString();
+                    object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["241-300"])))).ToString();
+                    object nine = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["301-360"])))).ToString();
+                    object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["360+"])))).ToString();
+                    object grandtotal = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Grand Total"])))).ToString();
 
-                object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["0-30"])))).ToString();
-                object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["31-60"])))).ToString();
-                object three = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["61-90"])))).ToString();
-                object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["91-120"])))).ToString();
-                object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["121-150"])))).ToString();
-                object six = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["151-180"])))).ToString();
-                object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["181-240"])))).ToString();
-                object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["241-300"])))).ToString();
-                object nine = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["301-360"])))).ToString();
-                object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["360+"])))).ToString();
-                object grandtotal = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Grand Total"])))).ToString();
 
-
-                catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
-                    , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
-                    , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
-                    , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(grandtotal), 2));
+                    catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
+                        , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
+                        , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
+                        , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(grandtotal), 2));
+                }
             }
-            else if (btnType.Equals("Sales For Warehouse") || btnType.Equals("Sales For Shop") || btnType.Equals("Sales With Margin"))
+            else if (btnType.Equals("Sales For Warehouse") || btnType.Equals("Sales For Shop") || btnType.Equals("Sales With Margin") || btnType.Equals("Sales With Trader Note"))
             {
-                object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 0-30"])))).ToString();
-                object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 0-30"])))).ToString();
-                object three = Math.Round(((Convert.ToDecimal(two) - Convert.ToDecimal(one)) / Convert.ToDecimal(two)) * 100, 2);
+                if (!catTable.Rows.Count.Equals(0))
+                {
+                    object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 0-30"])))).ToString();
+                    object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 0-30"])))).ToString();
 
-                object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 31-60"])))).ToString();
-                object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 31-60"])))).ToString();
-                object six = Math.Round(((Convert.ToDecimal(five) - Convert.ToDecimal(four)) / Convert.ToDecimal(five)) * 100, 2);
+                    object three = "0";
+                    if (!two.Equals("0.00"))
+                    {
+                        three = Math.Round(((Convert.ToDecimal(two) - Convert.ToDecimal(one)) / Convert.ToDecimal(two)) * 100, 2);
+                    }
 
-                object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 61-90"])))).ToString();
-                object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 61-90"])))).ToString();
-                object nine = Math.Round(((Convert.ToDecimal(eight) - Convert.ToDecimal(seven)) / Convert.ToDecimal(eight)) * 100, 2);
+                    object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 31-60"])))).ToString();
+                    object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 31-60"])))).ToString();
 
-                object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 91-120"])))).ToString();
-                object elvn = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 91-120"])))).ToString();
-                object twl = Math.Round(((Convert.ToDecimal(elvn) - Convert.ToDecimal(ten)) / Convert.ToDecimal(elvn)) * 100, 2);
+                    object six = "0";
+                    if (!five.Equals("0.00"))
+                    {
+                        six = Math.Round(((Convert.ToDecimal(five) - Convert.ToDecimal(four)) / Convert.ToDecimal(five)) * 100, 2);
+                    }
 
-                object thr = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 121-150"])))).ToString();
-                object frty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 121-150"])))).ToString();
-                object ffty = Math.Round(((Convert.ToDecimal(frty) - Convert.ToDecimal(thr)) / Convert.ToDecimal(frty)) * 100, 2);
+                    object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 61-90"])))).ToString();
+                    object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 61-90"])))).ToString();
 
-                object sixty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 151-180"])))).ToString();
-                object eighty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 151-180"])))).ToString();
-                object ninty = Math.Round(((Convert.ToDecimal(eighty) - Convert.ToDecimal(sixty)) / Convert.ToDecimal(eighty)) * 100, 2);
+                    object nine = "0";
+                    if (!eight.Equals("0.00"))
+                    {
+                        nine = Math.Round(((Convert.ToDecimal(eight) - Convert.ToDecimal(seven)) / Convert.ToDecimal(eight)) * 100, 2);
+                    }
+
+                    object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 91-120"])))).ToString();
+                    object elvn = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 91-120"])))).ToString();
+
+                    object twl = "0";
+                    if (!elvn.Equals("0.00"))
+                    {
+                        twl = Math.Round(((Convert.ToDecimal(elvn) - Convert.ToDecimal(ten)) / Convert.ToDecimal(elvn)) * 100, 2);
+                    }
+
+                    object thr = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 121-150"])))).ToString();
+                    object frty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 121-150"])))).ToString();
+
+                    object ffty = "0";
+                    if (!frty.Equals("0.00"))
+                    {
+                        ffty = Math.Round(((Convert.ToDecimal(frty) - Convert.ToDecimal(thr)) / Convert.ToDecimal(frty)) * 100, 2);
+                    }
+
+                    object sixty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 151-180"])))).ToString();
+                    object eighty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 151-180"])))).ToString();
+
+                    object ninty = "0";
+                    if (!eighty.Equals("0.00"))
+                    {
+                        ninty = Math.Round(((Convert.ToDecimal(eighty) - Convert.ToDecimal(sixty)) / Convert.ToDecimal(eighty)) * 100, 2);
+                    }
 
 
-                object twnty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 181-240"])))).ToString();
-                object twnty1 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 181-240"])))).ToString();
-                object twnty2 = Math.Round(((Convert.ToDecimal(twnty1) - Convert.ToDecimal(twnty)) / Convert.ToDecimal(twnty1)) * 100, 2);
+                    object twnty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 181-240"])))).ToString();
+                    object twnty1 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 181-240"])))).ToString();
+
+                    object twnty2 = "0";
+                    if (!twnty1.Equals("0.00"))
+                    {
+                        twnty2 = Math.Round(((Convert.ToDecimal(twnty1) - Convert.ToDecimal(twnty)) / Convert.ToDecimal(twnty1)) * 100, 2);
+                    }
 
 
-                object twnty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 241-300"])))).ToString();
-                object twnty4 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 241-300"])))).ToString();
-                object twnty5 = Math.Round(((Convert.ToDecimal(twnty4) - Convert.ToDecimal(twnty3)) / Convert.ToDecimal(twnty4)) * 100, 2);
+                    object twnty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 241-300"])))).ToString();
+                    object twnty4 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 241-300"])))).ToString();
 
-                object twnty6 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 301-360"])))).ToString();
-                object twnty7 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 301-360"])))).ToString();
-                object twnty8 = Math.Round(((Convert.ToDecimal(twnty7) - Convert.ToDecimal(twnty6)) / Convert.ToDecimal(twnty7)) * 100, 2);
+                    object twnty5 = "0";
+                    if (!twnty4.Equals("0.00"))
+                    {
+                        twnty5 = Math.Round(((Convert.ToDecimal(twnty4) - Convert.ToDecimal(twnty3)) / Convert.ToDecimal(twnty4)) * 100, 2);
+                    }
 
+                    object twnty6 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 301-360"])))).ToString();
+                    object twnty7 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 301-360"])))).ToString();
 
-
-                object twnty9 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 360+"])))).ToString();
-                object thrty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 360+"])))).ToString();
-                object thrty1 = Math.Round(((Convert.ToDecimal(thrty) - Convert.ToDecimal(twnty9)) / Convert.ToDecimal(thrty)) * 100, 2);
-
-
-
-                object thrty2 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Total Purchase"])))).ToString();
-                object thrty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Total Sales"])))).ToString();
-                object thrty4 = Math.Round(((Convert.ToDecimal(thrty3) - Convert.ToDecimal(thrty2)) / Convert.ToDecimal(thrty3)) * 100, 2);
+                    object twnty8 = "0";
+                    if (!twnty7.Equals("0.00"))
+                    {
+                        twnty8 = Math.Round(((Convert.ToDecimal(twnty7) - Convert.ToDecimal(twnty6)) / Convert.ToDecimal(twnty7)) * 100, 2);
+                    }
 
 
-                catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
-                    , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
-                    , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
-                    , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(elvn), 2)
-                    , Math.Round(Convert.ToDecimal(twl), 2), Math.Round(Convert.ToDecimal(thr), 2), Math.Round(Convert.ToDecimal(frty), 2),
-                    Math.Round(Convert.ToDecimal(ffty), 2), Math.Round(Convert.ToDecimal(sixty), 2), Math.Round(Convert.ToDecimal(eighty), 2)
-                     , Math.Round(Convert.ToDecimal(ninty), 2), Math.Round(Convert.ToDecimal(twnty), 2), Math.Round(Convert.ToDecimal(twnty1), 2)
-                    , Math.Round(Convert.ToDecimal(twnty2), 2), Math.Round(Convert.ToDecimal(twnty3), 2), Math.Round(Convert.ToDecimal(twnty4), 2)
-                    , Math.Round(Convert.ToDecimal(twnty5), 2), Math.Round(Convert.ToDecimal(twnty6), 2), Math.Round(Convert.ToDecimal(twnty7), 2)
-                    , Math.Round(Convert.ToDecimal(twnty8), 2), Math.Round(Convert.ToDecimal(twnty9), 2), Math.Round(Convert.ToDecimal(thrty), 2)
-                    , Math.Round(Convert.ToDecimal(thrty1), 2), Math.Round(Convert.ToDecimal(thrty2), 2), Math.Round(Convert.ToDecimal(thrty3), 2), Math.Round(Convert.ToDecimal(thrty4), 2));
+
+                    object twnty9 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 360+"])))).ToString();
+                    object thrty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Sales 360+"])))).ToString();
+
+                    object thrty1 = "0";
+                    if (!thrty.Equals("0.00"))
+                    {
+                        thrty1 = Math.Round(((Convert.ToDecimal(thrty) - Convert.ToDecimal(twnty9)) / Convert.ToDecimal(thrty)) * 100, 2);
+                    }
+
+
+
+                    object thrty2 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Total Purchase"])))).ToString();
+                    object thrty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Total Sales"])))).ToString();
+                    object thrty4 = "0";
+                    if (!thrty3.Equals("0.00"))
+                    {
+                        thrty4 = Math.Round(((Convert.ToDecimal(thrty3) - Convert.ToDecimal(thrty2)) / Convert.ToDecimal(thrty3)) * 100, 2);
+                    }
+
+
+                    catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
+                        , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
+                        , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
+                        , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(elvn), 2)
+                        , Math.Round(Convert.ToDecimal(twl), 2), Math.Round(Convert.ToDecimal(thr), 2), Math.Round(Convert.ToDecimal(frty), 2),
+                        Math.Round(Convert.ToDecimal(ffty), 2), Math.Round(Convert.ToDecimal(sixty), 2), Math.Round(Convert.ToDecimal(eighty), 2)
+                         , Math.Round(Convert.ToDecimal(ninty), 2), Math.Round(Convert.ToDecimal(twnty), 2), Math.Round(Convert.ToDecimal(twnty1), 2)
+                        , Math.Round(Convert.ToDecimal(twnty2), 2), Math.Round(Convert.ToDecimal(twnty3), 2), Math.Round(Convert.ToDecimal(twnty4), 2)
+                        , Math.Round(Convert.ToDecimal(twnty5), 2), Math.Round(Convert.ToDecimal(twnty6), 2), Math.Round(Convert.ToDecimal(twnty7), 2)
+                        , Math.Round(Convert.ToDecimal(twnty8), 2), Math.Round(Convert.ToDecimal(twnty9), 2), Math.Round(Convert.ToDecimal(thrty), 2)
+                        , Math.Round(Convert.ToDecimal(thrty1), 2), Math.Round(Convert.ToDecimal(thrty2), 2), Math.Round(Convert.ToDecimal(thrty3), 2), Math.Round(Convert.ToDecimal(thrty4), 2));
+
+                }
             }
 
-            
+
             else if (btnType.Equals("Purchase With Margin"))
             {
-                object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 0-30"])))).ToString();
-                object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 0-30"])))).ToString();
-                object three = Math.Round(((Convert.ToDecimal(two) - Convert.ToDecimal(one)) / Convert.ToDecimal(two)) * 100, 2);
+                if (!catTable.Rows.Count.Equals(0))
+                {
+                    object one = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 0-30"])))).ToString();
+                    object two = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 0-30"])))).ToString();
+                    object three = "0";
+                    if (!two.Equals("0.00"))
+                    {
+                        three = Math.Round(((Convert.ToDecimal(two) - Convert.ToDecimal(one)) / Convert.ToDecimal(two)) * 100, 2);
+                    }
+                    object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 31-60"])))).ToString();
+                    object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 31-60"])))).ToString();
 
-                object four = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 31-60"])))).ToString();
-                object five = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 31-60"])))).ToString();
-                object six = Math.Round(((Convert.ToDecimal(five) - Convert.ToDecimal(four)) / Convert.ToDecimal(five)) * 100, 2);
+                    object six = "0";
+                    if (!five.Equals("0.00"))
+                    {
+                        six = Math.Round(((Convert.ToDecimal(five) - Convert.ToDecimal(four)) / Convert.ToDecimal(five)) * 100, 2);
+                    }
 
-                object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 61-90"])))).ToString();
-                object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 61-90"])))).ToString();
-                object nine = Math.Round(((Convert.ToDecimal(eight) - Convert.ToDecimal(seven)) / Convert.ToDecimal(eight)) * 100, 2);
+                    object seven = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 61-90"])))).ToString();
+                    object eight = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 61-90"])))).ToString();
 
-                object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 91-120"])))).ToString();
-                object elvn = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 91-120"])))).ToString();
-                object twl = Math.Round(((Convert.ToDecimal(elvn) - Convert.ToDecimal(ten)) / Convert.ToDecimal(elvn)) * 100, 2);
+                    object nine = "0";
+                    if (!eight.Equals("0.00"))
+                    {
+                        nine = Math.Round(((Convert.ToDecimal(eight) - Convert.ToDecimal(seven)) / Convert.ToDecimal(eight)) * 100, 2);
+                    }
 
-                object thr = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 121-150"])))).ToString();
-                object frty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 121-150"])))).ToString();
-                object ffty = Math.Round(((Convert.ToDecimal(frty) - Convert.ToDecimal(thr)) / Convert.ToDecimal(frty)) * 100, 2);
+                    object ten = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 91-120"])))).ToString();
+                    object elvn = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 91-120"])))).ToString();
 
-                object sixty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 151-180"])))).ToString();
-                object eighty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 151-180"])))).ToString();
-                object ninty = Math.Round(((Convert.ToDecimal(eighty) - Convert.ToDecimal(sixty)) / Convert.ToDecimal(eighty)) * 100, 2);
+                    object twl = "0";
+                    if (!elvn.Equals("0.00"))
+                    {
+                        twl = Math.Round(((Convert.ToDecimal(elvn) - Convert.ToDecimal(ten)) / Convert.ToDecimal(elvn)) * 100, 2);
+                    }
 
+                    object thr = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 121-150"])))).ToString();
+                    object frty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 121-150"])))).ToString();
 
-                object twnty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 181-240"])))).ToString();
-                object twnty1 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 181-240"])))).ToString();
-                object twnty2 = Math.Round(((Convert.ToDecimal(twnty1) - Convert.ToDecimal(twnty)) / Convert.ToDecimal(twnty1)) * 100, 2);
+                    object ffty = "0";
+                    if (!frty.Equals("0.00"))
+                    {
+                        ffty = Math.Round(((Convert.ToDecimal(frty) - Convert.ToDecimal(thr)) / Convert.ToDecimal(frty)) * 100, 2);
+                    }
 
+                    object sixty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 151-180"])))).ToString();
+                    object eighty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 151-180"])))).ToString();
 
-                object twnty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 241-300"])))).ToString();
-                object twnty4 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 241-300"])))).ToString();
-                object twnty5 = Math.Round(((Convert.ToDecimal(twnty4) - Convert.ToDecimal(twnty3)) / Convert.ToDecimal(twnty4)) * 100, 2);
-
-                object twnty6 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 301-360"])))).ToString();
-                object twnty7 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 301-360"])))).ToString();
-                object twnty8 = Math.Round(((Convert.ToDecimal(twnty7) - Convert.ToDecimal(twnty6)) / Convert.ToDecimal(twnty7)) * 100, 2);
-
-
-
-                object twnty9 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 360+"])))).ToString();
-                object thrty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 360+"])))).ToString();
-                object thrty1 = Math.Round(((Convert.ToDecimal(thrty) - Convert.ToDecimal(twnty9)) / Convert.ToDecimal(thrty)) * 100, 2);
-
-
-
-                object thrty2 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase Total"])))).ToString();
-                object thrty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP Total"])))).ToString();
-                object thrty4 = Math.Round(((Convert.ToDecimal(thrty3) - Convert.ToDecimal(thrty2)) / Convert.ToDecimal(thrty3)) * 100, 2);
+                    object ninty = "0";
+                    if (!eighty.Equals("0.00"))
+                    {
+                        ninty = Math.Round(((Convert.ToDecimal(eighty) - Convert.ToDecimal(sixty)) / Convert.ToDecimal(eighty)) * 100, 2);
+                    }
 
 
-                catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
-                    , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
-                    , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
-                    , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(elvn), 2)
-                    , Math.Round(Convert.ToDecimal(twl), 2), Math.Round(Convert.ToDecimal(thr), 2), Math.Round(Convert.ToDecimal(frty), 2),
-                    Math.Round(Convert.ToDecimal(ffty), 2), Math.Round(Convert.ToDecimal(sixty), 2), Math.Round(Convert.ToDecimal(eighty), 2)
-                     , Math.Round(Convert.ToDecimal(ninty), 2), Math.Round(Convert.ToDecimal(twnty), 2), Math.Round(Convert.ToDecimal(twnty1), 2)
-                    , Math.Round(Convert.ToDecimal(twnty2), 2), Math.Round(Convert.ToDecimal(twnty3), 2), Math.Round(Convert.ToDecimal(twnty4), 2)
-                    , Math.Round(Convert.ToDecimal(twnty5), 2), Math.Round(Convert.ToDecimal(twnty6), 2), Math.Round(Convert.ToDecimal(twnty7), 2)
-                    , Math.Round(Convert.ToDecimal(twnty8), 2), Math.Round(Convert.ToDecimal(twnty9), 2), Math.Round(Convert.ToDecimal(thrty), 2)
-                    , Math.Round(Convert.ToDecimal(thrty1), 2), Math.Round(Convert.ToDecimal(thrty2), 2), Math.Round(Convert.ToDecimal(thrty3), 2), Math.Round(Convert.ToDecimal(thrty4), 2));
+                    object twnty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 181-240"])))).ToString();
+                    object twnty1 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 181-240"])))).ToString();
+
+                    object twnty2 = "0";
+                    if (!twnty1.Equals("0.00"))
+                    {
+                        twnty2 = Math.Round(((Convert.ToDecimal(twnty1) - Convert.ToDecimal(twnty)) / Convert.ToDecimal(twnty1)) * 100, 2);
+                    }
+
+
+                    object twnty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 241-300"])))).ToString();
+                    object twnty4 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 241-300"])))).ToString();
+
+                    object twnty5 = "0";
+                    if (!twnty4.Equals("0.00"))
+                    {
+                        twnty5 = Math.Round(((Convert.ToDecimal(twnty4) - Convert.ToDecimal(twnty3)) / Convert.ToDecimal(twnty4)) * 100, 2);
+                    }
+
+                    object twnty6 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 301-360"])))).ToString();
+                    object twnty7 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 301-360"])))).ToString();
+
+                    object twnty8 = "0";
+                    if (!twnty7.Equals("0.00"))
+                    {
+                        twnty8 = Math.Round(((Convert.ToDecimal(twnty7) - Convert.ToDecimal(twnty6)) / Convert.ToDecimal(twnty7)) * 100, 2);
+                    }
+
+
+
+                    object twnty9 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase 360+"])))).ToString();
+                    object thrty = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP 360+"])))).ToString();
+                    object thrty1 = "0";
+                    if (!thrty.Equals("0.00"))
+                    {
+                        thrty1 = Math.Round(((Convert.ToDecimal(twnty9) - Convert.ToDecimal(thrty)) / Convert.ToDecimal(twnty9)) * 100, 2);
+                    }
+
+                    object thrty2 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["Purchase Total"])))).ToString();
+                    object thrty3 = (Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x["MRP Total"])))).ToString();
+                    object thrty4 = "0";
+                    if (!thrty3.Equals("0.00"))
+                    {
+                        thrty4 = Math.Round(((Convert.ToDecimal(thrty3) - Convert.ToDecimal(thrty2)) / Convert.ToDecimal(thrty3)) * 100, 2);
+                    }
+
+
+                    catTable.Rows.Add("Total", Math.Round(Convert.ToDecimal(one), 2), Math.Round(Convert.ToDecimal(two), 2)
+                        , Math.Round(Convert.ToDecimal(three), 2), Math.Round(Convert.ToDecimal(four), 2), Math.Round(Convert.ToDecimal(five), 2)
+                        , Math.Round(Convert.ToDecimal(six), 2), Math.Round(Convert.ToDecimal(seven), 2), Math.Round(Convert.ToDecimal(eight), 2)
+                        , Math.Round(Convert.ToDecimal(nine), 2), Math.Round(Convert.ToDecimal(ten), 2), Math.Round(Convert.ToDecimal(elvn), 2)
+                        , Math.Round(Convert.ToDecimal(twl), 2), Math.Round(Convert.ToDecimal(thr), 2), Math.Round(Convert.ToDecimal(frty), 2),
+                        Math.Round(Convert.ToDecimal(ffty), 2), Math.Round(Convert.ToDecimal(sixty), 2), Math.Round(Convert.ToDecimal(eighty), 2)
+                         , Math.Round(Convert.ToDecimal(ninty), 2), Math.Round(Convert.ToDecimal(twnty), 2), Math.Round(Convert.ToDecimal(twnty1), 2)
+                        , Math.Round(Convert.ToDecimal(twnty2), 2), Math.Round(Convert.ToDecimal(twnty3), 2), Math.Round(Convert.ToDecimal(twnty4), 2)
+                        , Math.Round(Convert.ToDecimal(twnty5), 2), Math.Round(Convert.ToDecimal(twnty6), 2), Math.Round(Convert.ToDecimal(twnty7), 2)
+                        , Math.Round(Convert.ToDecimal(twnty8), 2), Math.Round(Convert.ToDecimal(twnty9), 2), Math.Round(Convert.ToDecimal(thrty), 2)
+                        , Math.Round(Convert.ToDecimal(thrty1), 2), Math.Round(Convert.ToDecimal(thrty2), 2), Math.Round(Convert.ToDecimal(thrty3), 2), Math.Round(Convert.ToDecimal(thrty4), 2));
+                }
             }
 
 
             else if (btnType.Equals("Stock LR"))
             {
                 DataRow dr = catTable.NewRow();
-                foreach(DataColumn dc in catTable.Columns)
+                foreach (DataColumn dc in catTable.Columns)
                 {
-                    dr[dc] = Math.Round(Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x[dc]))),2);
+                    if (dc.ToString().Equals("VendorName"))
+                    {
+                        dr["VendorName"] = "Total";
+                    }
+                    else
+                    {
+
+                        dr[dc] = Math.Round(Convert.ToDecimal(catTable.AsEnumerable().Sum(x => Convert.ToDecimal(x[dc]))), 2);
+
+                    }
                 }
                 catTable.Rows.Add(dr);
             }
-
-
+            else if (btnType.Equals("Stock Location"))
+            {
+                if (!catTable.Rows.Count.Equals(0))
+                {
+                    //sumObject = table.Compute("Sum(Amount)", string.Empty);
+                    object sum = catTable.Compute("Sum(Amount)", string.Empty);
+                    object count =catTable.Compute("Sum(Quantity)", string.Empty);
+                    catTable.Rows.Add("Total", "", Math.Round(Convert.ToDecimal(sum), 2), Math.Round(Convert.ToDecimal(count), 2), "", "");
+                }
+            }
 
             transaction.Commit();
             if (connection.State == ConnectionState.Open)
