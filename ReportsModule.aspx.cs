@@ -173,20 +173,37 @@ public partial class ReportsModule : System.Web.UI.Page
 
     protected void report9_Click(object sender, EventArgs e)
     {
-        lblreport.Text = "Report 9";
-        lblrpt.Visible = false;
-        getData();
+        try
+        {
+            lblreport.Text = "Stock LR";
+            lblrpt.Text = lblreport.Text;
+            buttons.Visible = true;
+            btnexporttoexcel.Visible = true;
+            lblrpt.Visible = true;
+            getData();
+        }
+        catch(Exception ex)
+        {
+
+        }
         //getSummary();
-        
+
     }
 
     protected void report10_Click(object sender, EventArgs e)
     {
-        lblreport.Text = "Report 10";
-        lblrpt.Visible = false;
-        getData();
-        //getSummary();
-        
+        try
+        {
+            lblreport.Text = "Sales With Trader Note";
+            ModalPopupExtender1.Show();
+            buttons.Visible = true;
+            btnexporttoexcel.Visible = true;
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 
     protected void report11_Click(object sender, EventArgs e)

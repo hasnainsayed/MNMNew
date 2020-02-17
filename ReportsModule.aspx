@@ -119,13 +119,13 @@
 
                              <div class="col-md-3">
                                 <div class="form-group">
-                                    <asp:LinkButton ID="report9" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report9" OnClick="report9_Click" ValidationGroup="grp"><i class="icon-size fa fa-area-chart"></i> <br /> Stock Location</asp:LinkButton>
+                                    <asp:LinkButton ID="report9" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report9" OnClick="report9_Click" ValidationGroup="grp"><i class="icon-size fa fa-area-chart"></i> <br /> Stock LR</asp:LinkButton>
                                 </div>
 
                             </div>
-                             <div class="col-md-3" runat="server" visible="false">
+                             <div class="col-md-3" runat="server">
                                 <div class="form-group">
-                                    <asp:LinkButton ID="report10" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report10" OnClick="report10_Click" ValidationGroup="grp"><i class="icon-size fa fa-bar-chart"></i> <br /> Report 10</asp:LinkButton>
+                                    <asp:LinkButton ID="report10" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report10" OnClick="report10_Click" ValidationGroup="grp"><i class="icon-size fa fa-bar-chart"></i> <br /> Sales With Trader Note</asp:LinkButton>
                                 </div>
 
                             </div>
