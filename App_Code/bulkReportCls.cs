@@ -39,7 +39,71 @@ public class bulkReportCls
             //getVendorWiseStock
             if (btnType.Equals("VendorWise Stock"))
             {
-                command.CommandText = "SELECT c1name AS 'Vendor', SUM(pless30) AS '0-30' , SUM(p31to60) AS '31-60', SUM(p61to90) AS '61-90', SUM(p91to120) AS '91-120', SUM(p121to150) AS '121-150', SUM(p151to180) AS '151-180', SUM(p181to240) AS '181-240', SUM(p241to300) AS '241-300', SUM(p301to360) AS '301-360', SUM(pmore360) AS '360+', SUM(total) AS 'Grand Total' FROM (SELECT SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=30 Then s.purchaseRate Else 0 END ) AS pless30 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>30 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=60 Then s.purchaseRate Else 0 END ) AS p31to60 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>60 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=90 Then s.purchaseRate Else 0 END ) AS p61to90 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>90 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=120 Then s.purchaseRate Else 0 END ) AS p91to120 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>120 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=150 Then s.purchaseRate Else 0 END ) AS p121to150 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>150 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=180 Then s.purchaseRate Else 0 END ) AS p151to180 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>180 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=240 Then s.purchaseRate Else 0 END ) AS p181to240 , SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>240 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=300 Then s.purchaseRate Else 0 END ) AS p241to300 ,SUM(CASE When (DATEDIFF(DAY, s.SystemDate, GETDATE()) )>300 AND (DATEDIFF(DAY, s.SystemDate, GETDATE()) )<=360 Then s.purchaseRate Else 0 END ) AS p301to360 , SUM(CASE WHEN ((DATEDIFF(DAY, s.SystemDate, GETDATE()) )>360 ) Then s.purchaseRate Else 0 END ) AS pmore360 ,SUM(s.purchaseRate) AS total,c.c1name,s.purchaseRate,s.SystemDate FROM StockUpInward s INNER JOIN ItemStyle i ON i.styleid=s.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 GROUP BY s.SystemDate, c.c1name, s.purchaseRate) a GROUP BY c1name ORDER BY c1name;";
+                command.CommandText = "SELECT c1name AS 'VendorName', " +
+                                   "SUM(pless30s) AS '0-30 Shop' , SUM(pless30w) AS '0-30 Warehouse' , SUM(a0to30) AS '0-30 LR' , " +
+                                   "SUM(p31to60s) AS '31-60 Shop', SUM(p31to60w) AS '31-60 Warehouse', SUM(a31to60) AS '31-60 LR', " +
+                                   "SUM(p61to90s) AS '61-90 Shop', SUM(p61to90w) AS '61-90 Warehouse', SUM(a61to90) AS '61-90 LR', " +
+                                   "SUM(p91to120s) AS '91-120 Shop', SUM(p91to120w) AS '91-120 Warehouse', SUM(a91to120) AS '91-120 LR', " +
+                                   "SUM(p121to150s) AS '121-150 Shop', SUM(p121to150w) AS '121-150 Warehouse', SUM(a121to150) AS '121-150 LR', " +
+                                   "SUM(p151to180s) AS '151-180 Shop', SUM(p151to180w) AS '151-180 Warehouse', SUM(a151to180) AS '151-180 LR', " +
+                                   "SUM(p181to240s) AS '181-240 Shop', SUM(p181to240w) AS '181-240 Warehouse', SUM(a181to240) AS '181-240 LR', " +
+                                   "SUM(p241to300s) AS '241-300 Shop', SUM(p241to300w) AS '241-300 Warehouse', SUM(a241to300) AS '241-300 LR', " +
+                                   "SUM(p301to360s) AS '301-360 Shop', SUM(p301to360w) AS '301-360 Warehouse', SUM(a301to360) AS '301-360 LR', " +
+                                   "SUM(pmore360s) AS '360+  Shop', SUM(pmore360w) AS '360+ Warehouse', SUM(amore360) AS '360+ LR', " +
+                                   "SUM(totals) AS 'Shop Total', SUM(totalw) AS 'Warehouse Total',SUM(totallr) AS 'LR Total', " +
+                                   "SUM(totals) + SUM(totalw) + SUM(totallr) AS 'Grand Total' " +
+                                   "FROM( " +
+                                   "SELECT " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 30 Then s.purchaseRate Else 0 END) AS pless30s, 0 AS pless30w, 0 AS a0to30, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 60 Then s.purchaseRate Else 0 END) AS p31to60s, 0 AS p31to60w, 0 AS a31to60, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 90 Then s.purchaseRate Else 0 END) AS p61to90s, 0 AS p61to90w, 0 AS a61to90, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 120 Then s.purchaseRate Else 0 END) AS p91to120s, 0 AS p91to120w, 0 AS a91to120, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 150 Then s.purchaseRate Else 0 END) AS p121to150s, 0 AS p121to150w, 0 AS a121to150, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 180 Then s.purchaseRate Else 0 END) AS p151to180s, 0 AS p151to180w, 0 AS a151to180, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 240 Then s.purchaseRate Else 0 END) AS p181to240s, 0 AS p181to240w, 0 AS a181to240, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 300 Then s.purchaseRate Else 0 END) AS p241to300s, 0 AS p241to300w, 0 AS a241to300, " +
+                                   "SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 360 Then s.purchaseRate Else 0 END) AS p301to360s, 0 AS p301to360w, 0 AS a301to360, " +
+                                   "SUM(CASE WHEN((DATEDIFF(DAY, s.SystemDate, GETDATE())) > 360) Then s.purchaseRate Else 0 END) AS pmore360s, 0 AS pmore360w, 0 AS amore360, " +
+                                   "SUM(s.purchaseRate) AS totals, 0 AS totalw, 0 AS totallr, " +
+                                   "c.c1name " +
+                                   "FROM StockUpInward s " +
+                                   "INNER JOIN ItemStyle i ON i.styleid = s.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 " +
+                                   "WHERE s.physicalid = 3 " +
+                                   "GROUP BY s.SystemDate, c.c1name, s.purchaseRate " +
+                                   "UNION ALL " +
+                                   "SELECT " +
+                                   "0 as pless30s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 30 Then s.purchaseRate Else 0 END) AS pless30w, 0 AS a0to30, " +
+                                   "0 AS p31to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 60 Then s.purchaseRate Else 0 END) AS p31to60w, 0 AS a31to60, " +
+                                   "0 AS p61to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 90 Then s.purchaseRate Else 0 END) AS p61to90w, 0 AS a61to90, " +
+                                   "0 AS p91to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 120 Then s.purchaseRate Else 0 END) AS p91to120w, 0 AS a91to120, " +
+                                   "0 AS p121to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 150 Then s.purchaseRate Else 0 END) AS p121to150w, 0 AS a121to150, " +
+                                   "0 AS p151to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 180 Then s.purchaseRate Else 0 END) AS p151to180w, 0 AS a151to180, " +
+                                   "0 AS p181to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 240 Then s.purchaseRate Else 0 END) AS p181to240w, 0 AS a181to240, " +
+                                   "0 AS p241to60s, SUM(CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 300 Then s.purchaseRate Else 0 END) AS p241to300w, 0 AS a241to300, " +
+                                   "0 AS p301to60s, SUM(CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 360 Then s.purchaseRate Else 0 END) AS p301to360w, 0 AS a301to360, " +
+                                   "0 AS pmore360s, SUM(CASE WHEN((DATEDIFF(DAY, s.SystemDate, GETDATE())) > 360) Then s.purchaseRate Else 0 END) AS pmore360w, 0 AS amore360, " +
+                                   "0 AS totals, SUM(s.purchaseRate) AS totalw, 0 AS totallr, " +
+                                   "c.c1name " +
+                                   "FROM StockUpInward s " +
+                                   "INNER JOIN ItemStyle i ON i.styleid = s.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 " +
+                                   "WHERE s.physicalid <> 3 " +
+                                   "GROUP BY s.SystemDate, c.c1name, s.purchaseRate " +
+                                   "UNION ALL " +
+                                   "SELECT " +
+                                   "0 as pless30s, 0 as pless30w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 30 Then SUM(l.totalAmount) Else 0 END AS a0to30, " +
+                                   "0 AS p31to60s, 0 as p31to60w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 30 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 60 Then  SUM(l.totalAmount) Else 0 END AS a31to60, " +
+                                   "0 AS p61to90s, 0 AS p61to90w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 60 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 90 Then  SUM(l.totalAmount) Else 0 END AS a61to90, " +
+                                   "0 AS p91to120s, 0 AS p91to120w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 90 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 120 Then  SUM(l.totalAmount) Else 0 END AS a91to120, " +
+                                   "0 AS p121to150s, 0 AS p121to150w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 120 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 150 Then  SUM(l.totalAmount) Else 0 END AS a121to150, " +
+                                   "0 AS p151to180s, 0 AS p151to180w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 150 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 180 Then  SUM(l.totalAmount) Else 0 END AS a151to180, " +
+                                   "0 AS p181to240s, 0 AS p181to240w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 180 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 240 Then  SUM(l.totalAmount) Else 0 END AS a181to240, " +
+                                   "0 AS p241to300s, 0 AS p241to300w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 240 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 300 Then  SUM(l.totalAmount) Else 0 END AS a241to300, " +
+                                   "0 AS p301to360s, 0 as p301to360w, CASE When(DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 300 AND(DATEDIFF(DAY, l.entryDateTime, GETDATE())) <= 360 Then  SUM(l.totalAmount) Else 0 END AS a301to360, " +
+                                   "0 AS pmore360s, 0 as pmore360w, CASE WHEN((DATEDIFF(DAY, l.entryDateTime, GETDATE())) > 360) Then SUM(l.totalAmount) Else 0 END AS amore360, " +
+                                   "0 AS totals, 0 as totalw, SUM(l.totalAmount) AS totallr, " +
+                                   "v.vendorname " +
+                                   "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID WHERE l.IsActive = 3 GROUP BY v.VendorName, entryDateTime " +
+                                   ") a GROUP BY c1name ORDER BY c1name";
             }
             //getStock
             else if (btnType.Equals("Stock"))
@@ -292,7 +356,7 @@ public class bulkReportCls
             command.Parameters.AddWithValue("@VendorID", VendorID);
             catTable.Load(command.ExecuteReader());
 
-            if (btnType.Equals("VendorWise Stock") || btnType.Equals("VendorWise Stock Shop") || btnType.Equals("VendorWise Stock Warehouse"))
+            if ( btnType.Equals("VendorWise Stock Shop") || btnType.Equals("VendorWise Stock Warehouse"))
             {
 
                 if (!catTable.Rows.Count.Equals(0))
@@ -560,7 +624,7 @@ public class bulkReportCls
             }
 
 
-            else if (btnType.Equals("Stock LR"))
+            else if (btnType.Equals("Stock LR") || btnType.Equals("VendorWise Stock") )
             {
                 DataRow dr = catTable.NewRow();
                 foreach (DataColumn dc in catTable.Columns)
