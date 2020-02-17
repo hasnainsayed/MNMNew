@@ -129,9 +129,9 @@
                                 </div>
 
                             </div>
-                             <div class="col-md-3" runat="server" visible="false">
+                             <div class="col-md-3" runat="server">
                                 <div class="form-group">
-                                    <asp:LinkButton ID="report11" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report11" OnClick="report11_Click" ValidationGroup="grp"><i class="icon-size fa fa-line-chart"></i> <br /> Report 11</asp:LinkButton>
+                                    <asp:LinkButton ID="report11" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report11" OnClick="report11_Click" ValidationGroup="grp"><i class="icon-size fa fa-line-chart"></i> <br /> Stock Location</asp:LinkButton>
                                 </div>
 
                             </div>
@@ -227,6 +227,81 @@
 
                   <asp:LinkButton ID="btnGetRpt" runat="server" OnClick="btnGetRpt_Click" CssClass="btn btn-sm btn-success pull-right"><i class="fa fa-list"></i> Get Report</asp:LinkButton>
               </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+                <!-- /.modal-dialog -->
+       
+
+
+            </asp:Panel>
+
+        <asp:Panel ID="Panel1" runat="server" Style="display: none;">
+                <!--height:50%!important;width:50%!important;-->
+
+                <asp:Button ID="Button3" runat="server" Style="display: none" />
+                <cc1:ModalPopupExtender ID="ModalPopupExtender2"
+                    runat="server"
+                    TargetControlID="Button3"
+                    PopupControlID="Panel1"
+                    BackgroundCssClass="modalBackground" BehaviorID="mpee">
+                </cc1:ModalPopupExtender>
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                           
+                            <h4 class="modal-title"><asp:Label ID="Label1" runat="server" Text=''></asp:Label>
+                                <asp:Label ID="Label2" visible="false" runat="server" Text=''></asp:Label>
+                            </h4>
+                        </div>
+                        <div class="modal-body table-responsive" style="overflow-y:scroll;height:300px;">
+                            <div>
+                                <asp:label ID="Label3" Visible="false" runat="server" style="color:crimson;text-align:center;"></asp:label>
+                            </div>
+                        
+                            <table class="table table-bordered table-striped">
+                                <div class="col-md-12">
+                                <h3><asp:Label runat="server">Search Box</asp:Label></h3>
+                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Vendor </label>
+                                    <asp:DropDownList ID="vendorID1" runat="server" CssClass="form-control select2" DataTextField="VendorName" DataValueField="VendorID"></asp:DropDownList>
+                                </div>
+
+                            </div>
+
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Select Age</label>
+                                
+                                <asp:DropDownList ID="drpage" runat="server" CssClass="form-control select2">
+                                    <asp:ListItem>0-30</asp:ListItem>  
+                                    <asp:ListItem>31-60</asp:ListItem>  
+                                    <asp:ListItem>61-90</asp:ListItem>  
+                                    <asp:ListItem>91-120</asp:ListItem>  
+                                    <asp:ListItem>121-150</asp:ListItem>  
+                                    <asp:ListItem>151-180</asp:ListItem>  
+                                    <asp:ListItem>181-240</asp:ListItem>  
+                                    <asp:ListItem>241-300</asp:ListItem>  
+                                    <asp:ListItem>301-360</asp:ListItem>  
+                                    <asp:ListItem>360+</asp:ListItem>  
+                                </asp:DropDownList>
+                                </div>
+
+                            </div>
+                        </table>
+                            
+              </div>
+              <div class="modal-footer btn-toolbar">
+                  <asp:Button ID="Button4" CssClass="btn btn-sm btn-danger pull-right" runat="server" Text="Close" OnClientClick="return HideModalPopup6()" />
+
+                  <asp:LinkButton ID="btnGetRpt2" runat="server" OnClick="btnGetRpt2_Click" CssClass="btn btn-sm btn-success pull-right"><i class="fa fa-list"></i> Get Report</asp:LinkButton>
+              </div>
+                       <asp:Label runat="server" ID="lblmin"></asp:Label>
+                       <asp:Label runat="server" ID="lblmax"></asp:Label>
+                       <asp:Label runat="server" ID="lblcmngfrm"></asp:Label>
             </div>
             <!-- /.modal-content -->
           </div>

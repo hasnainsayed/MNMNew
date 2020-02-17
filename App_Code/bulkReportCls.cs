@@ -17,7 +17,7 @@ public class bulkReportCls
         //
     }
 
-    public DataTable getRecord(string btnType, string frmDate, string toDate)
+    public DataTable getRecord(string btnType, string frmDate, string toDate, string minval, string maxval, string commingfrom, string VendorID)
     {
         DataTable catTable = new DataTable();
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
@@ -260,18 +260,36 @@ public class bulkReportCls
 
             else if (btnType.Equals("Stock Location"))
             {
+                string where = "";
+                if(commingfrom.Equals("Less30"))
+                {
+                    where = " DATEDIFF(DAY, l.entryDateTime, GETDATE()) <= 30";
+                }
+                else if (commingfrom.Equals("More360"))
+                {
+                    where =  " DATEDIFF(DAY, l.entryDateTime, GETDATE()) > 360";
+                }
+                else if (commingfrom.Equals("Normal"))
+                {
+                    where = " DATEDIFF(DAY, s.DateTime, GETDATE()) > @minval AND (DATEDIFF(DAY,s.DateTime, GETDATE())) <= @maxval";
+                }
+
+
                 command.CommandText = "SELECT v.VendorName,i.Title,SUM(s.purchaseRate) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
                                       "FROM StockUpInward s " +
                                       "INNER JOIN ItemStyle i ON i.StyleID = s.StyleID " +
                                       "INNER JOIN Lot l ON l.BagId = s.BagID " +
                                       "INNER JOIN  Vendor v ON v.VendorID = l.VendorID " +
-                                      "WHERE v.VendorID = 66 AND " +
-                                      "DATEDIFF(DAY, s.DateTime, GETDATE()) > 10 AND(DATEDIFF(DAY, s.DateTime, GETDATE())) <= 45 " +
+                                      "WHERE v.VendorID = @VendorID AND " +
+                                      ""+ where + " " +
                                       "GROUP BY  v.VendorName,s.RackBarcode,i.StyleCode,i.Title " +
                                       "ORDER BY v.VendorName asc";
             }
-                command.Parameters.AddWithValue("@frmDate", frmDate);
+            command.Parameters.AddWithValue("@frmDate", frmDate);
             command.Parameters.AddWithValue("@toDate", toDate);
+            command.Parameters.AddWithValue("@minval", minval);
+            command.Parameters.AddWithValue("@maxval", maxval);
+            command.Parameters.AddWithValue("@VendorID", VendorID);
             catTable.Load(command.ExecuteReader());
 
             if (btnType.Equals("VendorWise Stock") || btnType.Equals("VendorWise Stock Shop") || btnType.Equals("VendorWise Stock Warehouse"))

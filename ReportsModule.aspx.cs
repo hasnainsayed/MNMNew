@@ -17,12 +17,29 @@ public partial class ReportsModule : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        ScriptManager.RegisterClientScriptBlock(this, GetType(), "mykey1", "firedate();", true);
+        try
+        {
+            if (!IsPostBack)
+            {
+                BindData();
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "mykey1", "firedate();", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            
+        }
     }
 
     protected void BindData()
     {
-
+        styleCls objS = new styleCls();
+        DataTable dt = objS.getTable("Vendor");
+        vendorID1.DataSource = dt;
+        vendorID1.DataBind();
     }
 
     protected void report1_Click(object sender, EventArgs e)
@@ -208,11 +225,18 @@ public partial class ReportsModule : System.Web.UI.Page
 
     protected void report11_Click(object sender, EventArgs e)
     {
-        lblreport.Text = "Report 11";
-        lblrpt.Visible = false;
-        getData();
-        //getSummary();
-        
+        try
+        {
+            lblreport.Text = "Stock Location";
+            ModalPopupExtender2.Show();
+            buttons.Visible = true;
+            btnexporttoexcel.Visible = true;
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 
     protected void report12_Click(object sender, EventArgs e)
@@ -229,7 +253,7 @@ public partial class ReportsModule : System.Web.UI.Page
         try
         {
             //StringBuilder html1 = getdataStream();
-            DataTable getDt = new bulkReportCls().getRecord(lblreport.Text,frmDate.Text,toDate.Text);
+            DataTable getDt = new bulkReportCls().getRecord(lblreport.Text,frmDate.Text,toDate.Text,lblmin.Text,lblmax.Text,lblcmngfrm.Text,vendorID1.Text);
             string html1 = ConvertDataTableToHTML(getDt);
             PlaceHolder2.Controls.Add(new Literal { Text = html1.ToString() });
             //txtarea.InnerHtml = html1.ToString();
@@ -339,7 +363,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
 
             bulkReportCls obj = new bulkReportCls();
-            DataTable getDt = new bulkReportCls().getRecord(lblreport.Text, frmDate.Text, toDate.Text);
+            DataTable getDt = new bulkReportCls().getRecord(lblreport.Text, frmDate.Text, toDate.Text,lblmin.Text, lblmax.Text, lblcmngfrm.Text, vendorID1.Text);
             using (XLWorkbook wb = new XLWorkbook())
             {
 
@@ -363,5 +387,88 @@ public partial class ReportsModule : System.Web.UI.Page
         {
 
         }
+    }
+
+    protected void btnGetRpt2_Click(object sender, EventArgs e)
+    {
+        int min=0;
+        int max=0;
+        string commingfrom = "";
+        if(drpage.SelectedValue.Equals("0-30"))
+        {
+            min = 0;
+            max = 30;
+            commingfrom = "Less30";
+
+        }
+        else if (drpage.SelectedValue.Equals("31-60"))
+        {
+            min = 31;
+            max = 60;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("61-90"))
+        {
+            min = 61;
+            max = 90;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("91-120"))
+        {
+            min = 91;
+            max = 120;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("121-150"))
+        {
+            min = 121;
+            max = 150;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("151-180"))
+        {
+            min = 151;
+            max = 180;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("181-240"))
+        {
+            min = 181;
+            max = 240;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("241-300"))
+        {
+            min = 241;
+            max = 300;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("301-360"))
+        {
+            min = 301;
+            max = 360;
+            commingfrom = "Normal";
+
+        }
+        else if (drpage.SelectedValue.Equals("360+"))
+        {
+            min = 0;
+            max = 360;
+            commingfrom = "More306";
+
+        }
+        lblmin.Text = min.ToString();
+        lblmax.Text = max.ToString();
+        lblcmngfrm.Text = commingfrom;
+        lblrpt.Text = lblreport.Text;
+        lblrpt.Visible = true;
+        getData();
     }
 }
