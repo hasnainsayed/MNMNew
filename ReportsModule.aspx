@@ -115,27 +115,27 @@
 
                             </div>
                              </div>
-                        <div class="row" runat="server" visible="false">
+                        <div class="row" runat="server">
 
                              <div class="col-md-3">
                                 <div class="form-group">
-                                    <asp:LinkButton ID="report9" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report9" OnClick="report9_Click" ValidationGroup="grp"><i class="icon-size fa fa-area-chart"></i> <br /> Report 9</asp:LinkButton>
+                                    <asp:LinkButton ID="report9" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report9" OnClick="report9_Click" ValidationGroup="grp"><i class="icon-size fa fa-area-chart"></i> <br /> Stock Location</asp:LinkButton>
                                 </div>
 
                             </div>
-                             <div class="col-md-3">
+                             <div class="col-md-3" runat="server" visible="false">
                                 <div class="form-group">
                                     <asp:LinkButton ID="report10" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report10" OnClick="report10_Click" ValidationGroup="grp"><i class="icon-size fa fa-bar-chart"></i> <br /> Report 10</asp:LinkButton>
                                 </div>
 
                             </div>
-                             <div class="col-md-3">
+                             <div class="col-md-3" runat="server" visible="false">
                                 <div class="form-group">
                                     <asp:LinkButton ID="report11" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report11" OnClick="report11_Click" ValidationGroup="grp"><i class="icon-size fa fa-line-chart"></i> <br /> Report 11</asp:LinkButton>
                                 </div>
 
                             </div>
-                             <div class="col-md-3">
+                             <div class="col-md-3" runat="server" visible="false">
                                 <div class="form-group">
                                     <asp:LinkButton ID="report12" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report12" OnClick="report12_Click" ValidationGroup="grp"><i class="icon-size fa fa-pie-chart"></i> <br /> Report 12</asp:LinkButton>
                                 </div>
