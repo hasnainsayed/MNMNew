@@ -252,11 +252,145 @@ public partial class ReportsModule : System.Web.UI.Page
     {
         try
         {
-            //StringBuilder html1 = getdataStream();
             DataTable getDt = new bulkReportCls().getRecord(lblreport.Text,frmDate.Text,toDate.Text,lblmin.Text,lblmax.Text,lblcmngfrm.Text,vendorID1.Text);
+            int count = getDt.Rows.Count;
+            int count1 = count - 1;
+            if (lblreport.Text.Equals("VendorWise Stock"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>VendorWise Stock Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Shop Total :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Shop Total"].ToString()+"</td></tr> " +
+                             "<tr><th class='report-data' style='padding-left:17px;'>WareHouse Total :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Warehouse Total"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>LR Total :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["LR Total"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Grand Total :</th><th style='padding-right:650px;'>" + getDt.Rows[count1]["Grand Total"].ToString() + "</th></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if(lblreport.Text.Equals("VendorWise Stock Shop"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>VendorWise Stock Shop Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Grand Total :</th><th style='padding-right:650px;'>" + getDt.Rows[count1]["Grand Total"].ToString() + "</th></tr> ");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("VendorWise Stock Warehouse"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>VendorWise Stock Warehouse Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Grand Total :</th><th style='padding-right:650px;'>" + getDt.Rows[count1]["Grand Total"].ToString() + "</th></tr> ");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Purchase With Margin"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Purchase With Margin Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Purchase Total :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Purchase Total"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>MRP Total :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["MRP Total"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Margin(In %) :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Margin"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Stock LR"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Stock LR Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Amount :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Amount"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Pieces :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Pieces"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Sales With Margin"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Sales With Margin Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Purchase :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Purchase"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Sales :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Sales"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Margin(In %) :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Margin"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Sales For Warehouse"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Sales For Warehouse Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Purchase :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Purchase"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Sales :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Sales"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Margin(In %) :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Margin"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Sales For Shop"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Sales For Shop Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Purchase :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Purchase"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Sales :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Sales"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Margin(In %) :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Margin"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Sales With Trader Note"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Sales With Trader Note Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Purchase :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Purchase"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Sales :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Sales"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Margin(In %) :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Total Margin"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblreport.Text.Equals("Stock Location"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>Stock Location Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>Total Amount :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Amount"].ToString() + "</td></tr>" +
+                             "<tr><th class='report-data' style='padding-left:17px;'>Total Quantity :</th><td style='padding-right:650px;'>" + getDt.Rows[count1]["Quantity"].ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
             string html1 = ConvertDataTableToHTML(getDt);
             PlaceHolder2.Controls.Add(new Literal { Text = html1.ToString() });
-            //txtarea.InnerHtml = html1.ToString();
             Session["htmlstring"] = html1.ToString();
         }
         catch (Exception ex)
@@ -264,6 +398,7 @@ public partial class ReportsModule : System.Web.UI.Page
         }
     }
 
+    
     public static string ConvertDataTableToHTML(DataTable dt)
     {
         string html = "<table  class='table table-hover' id='Header' width='100%' style='border-collapse:collapse' >";

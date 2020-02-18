@@ -145,7 +145,7 @@
                         </div>
                         </div>
                     </div>
-        <div class="box box-primary" id="summid" runat="server" visible="false" >
+        <div class="box box-primary" id="summid" runat="server" >
                      <div class="box box-primary">
                     <div class="box-body">
                         <div class="row">
