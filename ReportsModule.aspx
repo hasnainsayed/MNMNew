@@ -135,12 +135,19 @@
                                 </div>
 
                             </div>
+                            <div class="col-md-3"  runat="server">
+                                <div class="form-group">
+                                    <asp:LinkButton ID="report13" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report13" OnClick="report13_Click" ValidationGroup="grp"><i class="icon-size fa fa-pie-chart"></i> <br /> LR No Wise Stock</asp:LinkButton>
+                                </div>
+
+                            </div>
                              <div class="col-md-3" runat="server" visible="false">
                                 <div class="form-group">
                                     <asp:LinkButton ID="report12" class="btn btn-primary btn-round btn-lg" runat="server" Text="Report12" OnClick="report12_Click" ValidationGroup="grp"><i class="icon-size fa fa-pie-chart"></i> <br /> Report 12</asp:LinkButton>
                                 </div>
 
                             </div>
+                            
                              </div>
                         </div>
                         </div>
@@ -267,7 +274,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Vendor </label>
-                                    <asp:DropDownList ID="vendorID1" runat="server" CssClass="form-control select2" DataTextField="VendorName" DataValueField="VendorID"></asp:DropDownList>
+                                    <asp:DropDownList ID="vendorID1" runat="server" CssClass="form-control select2" DataTextField="C1Name" DataValueField="Col1ID"></asp:DropDownList>
                                 </div>
 
                             </div>

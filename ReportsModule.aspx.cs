@@ -37,7 +37,7 @@ public partial class ReportsModule : System.Web.UI.Page
     protected void BindData()
     {
         styleCls objS = new styleCls();
-        DataTable dt = objS.getTable("Vendor");
+        DataTable dt = objS.getTable("Column1");
         vendorID1.DataSource = dt;
         vendorID1.DataBind();
     }
@@ -307,8 +307,8 @@ public partial class ReportsModule : System.Web.UI.Page
                 html2.Append("</table>");
                 PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
             }
-
-            else if (lblreport.Text.Equals("Stock LR"))
+            
+            else if (lblreport.Text.Equals("Stock LR")|| lblreport.Text.Equals("LR Wise Stock"))
             {
                 StringBuilder html2 = new StringBuilder();
                 html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
@@ -605,5 +605,23 @@ public partial class ReportsModule : System.Web.UI.Page
         lblrpt.Text = lblreport.Text;
         lblrpt.Visible = true;
         getData();
+    }
+
+    protected void report13_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+            lblreport.Text = "LR Wise Stock";
+        lblrpt.Text = lblreport.Text;
+        buttons.Visible = true;
+        btnexporttoexcel.Visible = true;
+        lblrpt.Visible = true;
+        getData();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 }
