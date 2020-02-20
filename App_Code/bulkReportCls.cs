@@ -317,6 +317,42 @@ public class bulkReportCls
                                       ")dt GROUP BY VendorName";
             }
 
+            else if (btnType.Equals("LR Wise Stock"))
+            {
+                command.CommandText = "SELECT  VendorName,lrno,sum(a0to30) AS '0-30 Amount',  sum(p0to30) AS '0-30 Piece',SUM(a31to60) AS '31-60 Amount',SUM(p31to60) AS '31-60 Piece' " +
+                                      ",SUM(a61to90) AS '61-90 Amount',SUM(p61to90) AS '61-90 Piece' ,SUM(a91to120) AS '91-120 Amount',SUM(a91to120) AS '91-120 Piece', " +
+                                      "SUM(a121to150) AS '121-150 Amount',SUM(p121to150) AS '121-150 Piece',SUM(a151to180) AS '151-180 Amount',SUM(p151to180) AS '151-180 Piece', " +
+                                      "SUM(a181to240) AS '181-240 Amount',SUM(p181to240) AS '181-240 Piece',SUM(a241to300) AS '241-300 Amount',SUM(p241to300) AS '241-300 Piece', " +
+                                      "SUM(a301to360) AS '301-360 Amount',SUM(p301to360) AS '301-360 Piece',SUM(amore360) AS '360+ Amount', " +
+                                      "SUM(pmore360) AS '360+ Piece',SUM(totalamt) AS 'Total Amount', SUM(totalpcs) AS 'Total Pieces' " +
+                                      "FROM( " +
+                                      "SELECT lr.lrno,v.VendorName, SUM(l.totalAmount) AS Amount, SUM(l.totalPiece) AS Piece, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalAmount) Else 0 END AS a0to30, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalPiece) Else 0 END AS  p0to30, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 30 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 60 Then  SUM(l.totalAmount) Else 0 END AS a31to60, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 30 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 60 THEN  SUM(l.totalPiece) Else 0 END AS p31to60, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 60 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 90 Then  SUM(l.totalAmount) Else 0 END AS a61to90, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 60 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 90 THEN  SUM(l.totalPiece) Else 0 END AS p61to90, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 90 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 120 Then  SUM(l.totalAmount) Else 0 END AS a91to120, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 90 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 120 THEN  SUM(l.totalPiece) Else 0 END AS p91to120, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 120 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 150 Then  SUM(l.totalAmount) Else 0 END AS a121to150, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 120 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 150 THEN  SUM(l.totalPiece) Else 0 END AS p121to150, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 150 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 180 Then  SUM(l.totalAmount) Else 0 END AS a151to180, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 150 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 180 THEN  SUM(l.totalPiece) Else 0 END AS p151to180, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 180 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 240 Then  SUM(l.totalAmount) Else 0 END AS a181to240, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 180 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 240 THEN  SUM(l.totalPiece) Else 0 END AS p181to240, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 240 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 300 Then  SUM(l.totalAmount) Else 0 END AS a241to300, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 240 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 300 THEN  SUM(l.totalPiece) Else 0 END AS p241to300, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 300 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 360 Then  SUM(l.totalAmount) Else 0 END AS a301to360, " +
+                                      "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 300 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 360 Then  SUM(l.totalPiece) Else 0 END AS p301to360, " +
+                                      "CASE WHEN((DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL) Then SUM(l.totalAmount) Else 0 END AS amore360, " +
+                                      "CASE WHEN((DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL)  Then SUM(l.totalPiece) Else 0 END AS pmore360, " +
+                                      "SUM(l.totalAmount) AS totalamt, SUM(l.totalPiece) AS totalpcs " +
+                                      " " +
+                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID WHERE l.IsActive = 3 GROUP BY lr.lrno,v.VendorName, invoiceDate " +
+                                      ")dt GROUP BY VendorName,lrno";
+            }
+
             else if (btnType.Equals("Sales With Trader Note"))
             {
                 command.CommandText = "SELECT c1name AS 'Vendor', SUM(pless30) AS 'Purchase 0-30' ,SUM(sless30) AS 'Sales 0-30', ROUND(((SUM(sless30) - SUM(pless30)) / nullif(SUM(sless30), 0)) * 100, 2) AS 'Margin 0-30', SUM(p31to60) AS 'Purchase 31-60',SUM(s31to60) AS 'Sales 31-60',ROUND(((SUM(s31to60) - SUM(p31to60)) / nullif(SUM(s31to60), 0)) * 100, 2) AS 'Margin 31-60', SUM(p61to90) AS 'Purchase 61-90', SUM(s61to90) AS 'Sales 61-90',ROUND(((SUM(s61to90) - SUM(p61to90)) / nullif(SUM(s61to90), 0)) * 100, 2) AS 'Margin 61-90', SUM(p91to120) AS 'Purchase 91-120',  SUM(s91to120) AS 'Sales 91-120',ROUND(((SUM(s91to120) - SUM(p91to120)) / nullif(SUM(s91to120), 0)) * 100, 2) AS 'Margin 91-120', SUM(p121to150) AS 'Purchase 121-150', SUM(s121to150) AS 'Sales 121-150',ROUND(((SUM(s121to150) - SUM(p121to150)) / nullif(SUM(s121to150), 0)) * 100, 2) AS 'Margin 121-150', SUM(p151to180) AS 'Purchase 151-180', SUM(s151to180) AS 'Sales 151-180',ROUND(((SUM(s151to180) - SUM(p151to180)) / nullif(SUM(s151to180), 0)) * 100, 2) AS 'Margin 151-180', SUM(p181to240) AS 'Purchase 181-240', SUM(s181to240) AS 'Sales 181-240',ROUND(((SUM(s181to240) - SUM(p181to240)) / nullif(SUM(s181to240), 0)) * 100, 2) AS 'Margin 181-240', SUM(p241to300) AS 'Purchase 241-300', SUM(s241to300) AS 'Sales 241-300',ROUND(((SUM(s241to300) - SUM(p241to300)) / nullif(SUM(s241to300), 0)) * 100, 2) AS 'Margin 241-300', SUM(p301to360) AS 'Purchase 301-360',  SUM(s301to360) AS 'Sales 301-360',ROUND(((SUM(s301to360) - SUM(p301to360)) / nullif(SUM(s301to360), 0)) * 100, 2) AS 'Margin 301-360', SUM(pmore360) AS 'Purchase 360+', SUM(smore360) AS 'Sales 360+',ROUND(((SUM(smore360) - SUM(pmore360)) / nullif(SUM(smore360), 0)) * 100, 2) AS 'Margin 360+', SUM(totalpurchase) AS 'Total Purchase', SUM(totalsales) AS 'Total Sales',ROUND(((SUM(totalsales) - SUM(totalpurchase)) / nullif(SUM(totalsales), 0)) * 100, 2) AS 'Total Margin' FROM( SELECT SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 30 Then a.purchaseRate Else 0 END) AS pless30, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 30 Then s.sellingprice Else 0 END) AS sless30, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 60 Then a.purchaseRate Else 0 END) AS p31to60, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 60 THEN s.sellingprice Else 0 END) AS s31to60, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 90 Then a.purchaseRate Else 0 END) AS p61to90, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 90 Then s.sellingprice Else 0 END) AS s61to90, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 120 Then a.purchaseRate Else 0 END) AS p91to120, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 120 Then s.sellingprice Else 0 END) AS s91to120, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 150 Then a.purchaseRate Else 0 END) AS p121to150, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 150 Then s.sellingprice Else 0 END) AS s121to150, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 180 Then a.purchaseRate Else 0 END) AS p151to180, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 180 Then s.sellingprice Else 0 END) AS s151to180, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 240 Then a.purchaseRate Else 0 END) AS p181to240, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 240 Then s.sellingprice Else 0 END) AS s181to240, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 300 Then a.purchaseRate Else 0 END) AS p241to300, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 300 Then s.sellingprice Else 0 END) AS s241to300, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 360 Then a.purchaseRate Else 0 END) AS p301to360, SUM(CASE When(DATEDIFF(DAY, a.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, a.SystemDate, GETDATE())) <= 360 Then s.sellingprice Else 0 END) AS s301to360, SUM(CASE WHEN((DATEDIFF(DAY, a.SystemDate, GETDATE())) > 360) Then a.purchaseRate Else 0 END) AS pmore360, SUM(CASE WHEN((DATEDIFF(DAY, a.SystemDate, GETDATE())) > 360) Then s.sellingprice Else 0 END) AS smore360, SUM(a.purchaseRate) AS totalpurchase, SUM(s.sellingprice) AS totalsales, c.c1name, a.purchaseRate, a.SystemDate FROM ArchiveStockUpInward a INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE a.RackBarcode IS null  and s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date,@frmDate) AND convert(date,@toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate) b GROUP BY c1name ORDER BY c1name";
@@ -327,27 +363,26 @@ public class bulkReportCls
                 string where = "";
                 if(commingfrom.Equals("Less30"))
                 {
-                    where = " DATEDIFF(DAY, l.entryDateTime, GETDATE()) <= 30";
+                    where = " DATEDIFF(DAY, s.SystemDate, GETDATE()) <= 30";
                 }
                 else if (commingfrom.Equals("More360"))
                 {
-                    where =  " DATEDIFF(DAY, l.entryDateTime, GETDATE()) > 360";
+                    where = " DATEDIFF(DAY,s.SystemDate, GETDATE()) > 360";
                 }
                 else if (commingfrom.Equals("Normal"))
                 {
-                    where = " DATEDIFF(DAY, s.DateTime, GETDATE()) > @minval AND (DATEDIFF(DAY,s.DateTime, GETDATE())) <= @maxval";
+                    where = " DATEDIFF(DAY,s.SystemDate, GETDATE()) > @minval AND (DATEDIFF(DAY,s.SystemDate, GETDATE())) <= @maxval";
                 }
 
 
-                command.CommandText = "SELECT v.VendorName,i.Title,SUM(s.purchaseRate) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
+                command.CommandText = "SELECT c.C1Name AS VendorName,i.Title,SUM(s.purchaseRate) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
                                       "FROM StockUpInward s " +
                                       "INNER JOIN ItemStyle i ON i.StyleID = s.StyleID " +
-                                      "INNER JOIN Lot l ON l.BagId = s.BagID " +
-                                      "INNER JOIN  Vendor v ON v.VendorID = l.VendorID " +
-                                      "WHERE v.VendorID = @VendorID AND " +
-                                      ""+ where + " " +
-                                      "GROUP BY  v.VendorName,s.RackBarcode,i.StyleCode,i.Title " +
-                                      "ORDER BY v.VendorName asc";
+                                      "INNER JOIN COLUMN1 c ON c.col1id = i.Col1 " +
+                                      "WHERE c.Col1ID = @VendorID AND " +
+                                      ""+ where + "    and s.physicalid  IN (1,3) " +
+                                      "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title " +
+                                      "ORDER BY c.C1Name asc";
             }
             command.Parameters.AddWithValue("@frmDate", frmDate);
             command.Parameters.AddWithValue("@toDate", toDate);
@@ -624,7 +659,7 @@ public class bulkReportCls
             }
 
 
-            else if (btnType.Equals("Stock LR") || btnType.Equals("VendorWise Stock") )
+            else if (btnType.Equals("Stock LR") || btnType.Equals("VendorWise Stock") || btnType.Equals("LR Wise Stock"))
             {
                 DataRow dr = catTable.NewRow();
                 foreach (DataColumn dc in catTable.Columns)
@@ -632,6 +667,10 @@ public class bulkReportCls
                     if (dc.ToString().Equals("VendorName"))
                     {
                         dr["VendorName"] = "Total";
+                    }
+                    else if(dc.ToString().Equals("lrno"))
+                    {
+                        dr["lrno"] = " ";
                     }
                     else
                     {
