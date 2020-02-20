@@ -127,10 +127,10 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <th class="bora-table">Generated</th>
+                                    <th class="bora-table">Loaded</th>
                                     <th class="bora-table">Active</th>
                                     <th class="bora-table">InActive</th>
-                                    <th class="bora-table">Loaded</th>
-                                    <th class="bora-table">Generated</th>
                                     <th class="bora-table">Total</th>
                                 </tr>
                                 
@@ -157,16 +157,16 @@
                                                 <asp:LinkButton ID="edit" runat="server" OnClick="edit_Click" Visible="false" CssClass="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Edit</asp:LinkButton>
                                             </td>
                                             <td>
-                                                <asp:Label ID="activeid" runat="server"></asp:Label>
-                                            </td>
-                                            <td>
-                                                <asp:Label ID="inactiveid" runat="server"></asp:Label>
+                                                <asp:Label ID="generatedid" runat="server"></asp:Label>
                                             </td>
                                             <td>
                                                 <asp:Label ID="loadedid" runat="server"></asp:Label>
                                             </td>
                                             <td>
-                                                <asp:Label ID="generatedid" runat="server"></asp:Label>
+                                                <asp:Label ID="activeid" runat="server"></asp:Label>
+                                            </td>
+                                            <td>
+                                                <asp:Label ID="inactiveid" runat="server"></asp:Label>
                                             </td>
                                             <td>
                                                 <asp:Label ID="totalid" runat="server"></asp:Label>
