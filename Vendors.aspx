@@ -87,6 +87,15 @@
 
                             </div>
 
+                             <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <asp:DropDownList ID="drpsupervendor" runat="server" CssClass="form-control select2" DataTextField="C1Name" DataValueField="Col1ID"></asp:DropDownList>
+                                </div>
+
+                            </div>
+
+
                              
                             <!-- /.col -->
                     </div>
@@ -146,6 +155,7 @@
                                    <td>Email Address</td>
                                    <td>City</td>
                                    <td>GST IN</td>
+                                
                                    <td>Edit</td>
                                    
                                </tr>
@@ -163,6 +173,7 @@
                                             <td><%# Eval("Email")%></td> 
                                             <td><%# Eval("City")%></td> 
                                             <td><%# Eval("gstin")%></td> 
+                                         
                                             <td>
                                                 <asp:LinkButton ID="edit" runat="server" OnClick="edit_Click" CssClass="btn btn-warning btn-sm"><i class="fa fa-pencil"></i> Edit</asp:LinkButton>
                                                

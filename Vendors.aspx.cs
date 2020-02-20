@@ -126,7 +126,7 @@ public partial class Vendors : System.Web.UI.Page
                 divUpdAlert.Visible = false;
                 VendorsCls obj = new VendorsCls();
                 int Success = obj.addUpdateVendor(Convert.ToInt32(hdnID.Text), VendorName.Text, Contact.Text, Email.Text, City.Text,
-                    vAddress.Text, gstin.Text);
+                    vAddress.Text, gstin.Text,drpsupervendor.SelectedValue);
                 if (Success != -1)
                 {
                     if (hdnID.Text.Equals(0))
@@ -169,6 +169,11 @@ public partial class Vendors : System.Web.UI.Page
             divErrorAlert.Visible = false;
             divAddAlert.Visible = false;
             divUpdAlert.Visible = false;
+            styleCls obj = new styleCls();
+            DataTable dt = obj.getTable("Column1");
+            drpsupervendor.DataSource = dt;
+            drpsupervendor.DataBind();
+            drpsupervendor.Items.Insert(0, new ListItem("--- Select----", "0"));
         }
         catch (Exception ex)
         {
@@ -194,11 +199,26 @@ public partial class Vendors : System.Web.UI.Page
             Email.Text = lot.Rows[0]["Email"].ToString();
             vAddress.Text = lot.Rows[0]["vAddress"].ToString();
             gstin.Text = lot.Rows[0]["gstin"].ToString();
-            City.Text = lot.Rows[0]["City"].ToString();            
+            City.Text = lot.Rows[0]["City"].ToString();
+
+            
+            DataTable dt = objL.getTable("Column1");
+            drpsupervendor.DataSource = dt;
+            drpsupervendor.DataBind();
+            if(lot.Rows[0]["svid"].ToString().Equals(""))
+            {
+                drpsupervendor.Items.Insert(0, new ListItem("--- Select----", "0"));
+            }
+            else
+            {
+                drpsupervendor.SelectedValue = lot.Rows[0]["svid"].ToString();
+            }
+
             devCapone.Visible = true;
             divErrorAlert.Visible = false;
             divAddAlert.Visible = false;
             divUpdAlert.Visible = false;
+
         }
         catch (Exception ex)
         {

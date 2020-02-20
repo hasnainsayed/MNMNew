@@ -17,7 +17,7 @@ public class VendorsCls
         //
     }
 
-    public int addUpdateVendor(int VendorID, string VendorName, string Contact, string Email, string City, string vAddress, string gstin)
+    public int addUpdateVendor(int VendorID, string VendorName, string Contact, string Email, string City, string vAddress, string gstin,string svid)
     {
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
         SqlConnection connection = new SqlConnection(connectionString);
@@ -43,15 +43,16 @@ public class VendorsCls
             command.Parameters.AddWithValue("@City", City);
             command.Parameters.AddWithValue("@vAddress", vAddress);
             command.Parameters.AddWithValue("@gstin", gstin);
+            command.Parameters.AddWithValue("@svid", svid);
            
             if (VendorID.Equals(0))
             {
-                command.CommandText = "insert into Vendor (VendorName,Contact,Email,City,vAddress,gstin) values (@VendorName,@Contact,@Email,@City,@vAddress,@gstin)";
+                command.CommandText = "insert into Vendor (VendorName,Contact,Email,City,vAddress,gstin,svid) values (@VendorName,@Contact,@Email,@City,@vAddress,@gstin,@svid)";
             }
             else
             {
                 command.CommandText = "update Vendor set VendorName=@VendorName," +
-                    "Contact=@Contact,Email=@Email,City=@City,vAddress=@vAddress,gstin=@gstin where VendorID=@VendorID";
+                    "Contact=@Contact,Email=@Email,City=@City,vAddress=@vAddress,gstin=@gstin,svid=@svid where VendorID=@VendorID";
                 command.Parameters.AddWithValue("@VendorID", VendorID);
             }
             
@@ -86,4 +87,6 @@ public class VendorsCls
             }
         }
     }
+
+
 }

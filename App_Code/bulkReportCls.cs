@@ -101,8 +101,8 @@ public class bulkReportCls
                                     "0 AS p301to360s, 0 as p301to360w, CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 300 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 360 Then  SUM(l.totalAmount) Else 0 END AS a301to360, " +
                                     "0 AS pmore360s, 0 as pmore360w, CASE WHEN((DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL) Then SUM(l.totalAmount) Else 0 END AS amore360, " +
                                     "0 AS totals, 0 as totalw, SUM(l.totalAmount) AS totallr, " +
-                                    "v.vendorname " +
-                                    "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID WHERE l.IsActive = 3 GROUP BY v.VendorName, invoiceDate " +
+                                    "c.c1name " +
+                                    "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid WHERE l.IsActive = 3 GROUP BY c.C1Name, invoiceDate " +
                                     ") a GROUP BY c1name ORDER BY c1name";
                }
             //getStock
@@ -290,7 +290,7 @@ public class bulkReportCls
                                       "SUM(a301to360) AS '301-360 Amount',SUM(p301to360) AS '301-360 Piece',SUM(amore360) AS '360+ Amount', " +
                                       "SUM(pmore360) AS '360+ Piece',SUM(totalamt) AS 'Total Amount', SUM(totalpcs) AS 'Total Pieces' " +
                                       "FROM( " +
-                                      "SELECT v.VendorName, SUM(l.totalAmount) AS Amount, SUM(l.totalPiece) AS Piece, " +
+                                      "SELECT c.c1name as VendorName , SUM(l.totalAmount) AS Amount, SUM(l.totalPiece) AS Piece, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalAmount) Else 0 END AS a0to30, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalPiece) Else 0 END AS  p0to30, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 30 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 60 Then  SUM(l.totalAmount) Else 0 END AS a31to60, " +
@@ -313,7 +313,7 @@ public class bulkReportCls
                                       "CASE WHEN((DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL)  Then SUM(l.totalPiece) Else 0 END AS pmore360, " +
                                       "SUM(l.totalAmount) AS totalamt, SUM(l.totalPiece) AS totalpcs " +
                                       " " +
-                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID WHERE l.IsActive = 3 GROUP BY v.VendorName, invoiceDate " +
+                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid  WHERE l.IsActive = 3 GROUP BY c.c1name, invoiceDate " +
                                       ")dt GROUP BY VendorName";
             }
 
@@ -326,7 +326,7 @@ public class bulkReportCls
                                       "SUM(a301to360) AS '301-360 Amount',SUM(p301to360) AS '301-360 Piece',SUM(amore360) AS '360+ Amount', " +
                                       "SUM(pmore360) AS '360+ Piece',SUM(totalamt) AS 'Total Amount', SUM(totalpcs) AS 'Total Pieces' " +
                                       "FROM( " +
-                                      "SELECT lr.lrno,v.VendorName, SUM(l.totalAmount) AS Amount, SUM(l.totalPiece) AS Piece, " +
+                                      "SELECT lr.lrno,c.c1name as VendorName, SUM(l.totalAmount) AS Amount, SUM(l.totalPiece) AS Piece, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalAmount) Else 0 END AS a0to30, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalPiece) Else 0 END AS  p0to30, " +
                                       "CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 30 AND(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 60 Then  SUM(l.totalAmount) Else 0 END AS a31to60, " +
@@ -349,7 +349,7 @@ public class bulkReportCls
                                       "CASE WHEN((DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL)  Then SUM(l.totalPiece) Else 0 END AS pmore360, " +
                                       "SUM(l.totalAmount) AS totalamt, SUM(l.totalPiece) AS totalpcs " +
                                       " " +
-                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID WHERE l.IsActive = 3 GROUP BY lr.lrno,v.VendorName, invoiceDate " +
+                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid  WHERE l.IsActive = 3 GROUP BY lr.lrno,c.c1name, invoiceDate " +
                                       ")dt GROUP BY VendorName,lrno";
             }
 

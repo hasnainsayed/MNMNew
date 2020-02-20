@@ -201,6 +201,7 @@
                                    <th>Vendor </th>
                                    <th>Total Piece</th>
                                    <th>LOT</th>
+                                   <th>LR No</th>
                                    <th>Edit</th>
                                    <th>Change Status</th>
                                    <th>Payment</th>
@@ -218,6 +219,7 @@
                                             <td><%# Eval("VendorName")%></td> 
                                             <td><%# Eval("totalPiece")%></td> 
                                             <td><%# Eval("BagDescription")%></td> 
+                                            <td><%# Eval("lrnoname")%></td> 
                                             <td>
                                                 <asp:LinkButton ID="edit" Visible="false" runat="server" OnClick="edit_Click" CssClass="btn btn-primary btn-sm"><i class="fa fa-pencil"></i> Edit</asp:LinkButton>
                                                
