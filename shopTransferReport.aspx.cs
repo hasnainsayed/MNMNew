@@ -17,7 +17,22 @@ public partial class shopTransferReport : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        try
+        {
 
+            if (!IsPostBack)
+            {
+
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, GetType(), "mykey1", "firedatetime();", true);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     protected void btnGetRpt_Click(object sender, EventArgs e)
