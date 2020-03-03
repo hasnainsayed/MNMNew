@@ -311,6 +311,7 @@
                                     <li id="li23" runat="server"><a href="rolemaster.aspx"><i class="fa fa-circle-o"></i>Roles</a></li>
                                      <li id="li66" runat="server"><a href="currency.aspx"><i class="fa fa-circle-o"></i>Currency</a></li>
                                     <li id="li67" runat="server"><a href="accountingCentre.aspx"><i class="fa fa-circle-o"></i>Accounting Centre</a></li>
+                                    <li id="litax" runat="server"><a href="TaxMaster.aspx"><i class="fa fa-circle-o"></i>Tax Master</a></li>
                                 </ul>
                             </li>
                             

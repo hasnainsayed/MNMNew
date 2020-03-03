@@ -59,7 +59,9 @@ public partial class Vendors : System.Web.UI.Page
             City.Text = string.Empty;
             hdnID.Text = string.Empty;
             divError.Visible = false;
-            
+            rbltax.SelectedValue = "0";
+
+
         }
         catch (Exception ex)
         {
@@ -126,7 +128,7 @@ public partial class Vendors : System.Web.UI.Page
                 divUpdAlert.Visible = false;
                 VendorsCls obj = new VendorsCls();
                 int Success = obj.addUpdateVendor(Convert.ToInt32(hdnID.Text), VendorName.Text, Contact.Text, Email.Text, City.Text,
-                    vAddress.Text, gstin.Text,drpsupervendor.SelectedValue);
+                    vAddress.Text, gstin.Text,drpsupervendor.SelectedValue, rbltax.SelectedValue);
                 if (Success != -1)
                 {
                     if (hdnID.Text.Equals(0))
@@ -200,8 +202,8 @@ public partial class Vendors : System.Web.UI.Page
             vAddress.Text = lot.Rows[0]["vAddress"].ToString();
             gstin.Text = lot.Rows[0]["gstin"].ToString();
             City.Text = lot.Rows[0]["City"].ToString();
-
             
+
             DataTable dt = objL.getTable("Column1");
             drpsupervendor.DataSource = dt;
             drpsupervendor.DataBind();
@@ -213,7 +215,15 @@ public partial class Vendors : System.Web.UI.Page
             {
                 drpsupervendor.SelectedValue = lot.Rows[0]["svid"].ToString();
             }
-
+            if (lot.Rows[0]["istax"].ToString().Equals(""))
+            {
+                rbltax.SelectedValue = "0";
+            }
+            else
+            {
+                rbltax.SelectedValue = lot.Rows[0]["istax"].ToString();
+            }
+            
             devCapone.Visible = true;
             divErrorAlert.Visible = false;
             divAddAlert.Visible = false;
