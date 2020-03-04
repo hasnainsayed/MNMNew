@@ -36,7 +36,7 @@ public class newLotCls
         command.Transaction = transaction;
         try
         {
-            command.CommandText = "select l.*,v.VendorName,lr.lrno AS lrnoname from Lot l INNER JOIN lrListing lr ON lr.id=l.lrno left join Vendor v on v.VendorID = l.VendorID";
+            command.CommandText = "select l.*,v.VendorName,lr.lrno AS lrnoname from Lot l left JOIN lrListing lr ON lr.id=l.lrno left join Vendor v on v.VendorID = l.VendorID";
             catTable.Load(command.ExecuteReader());
 
             transaction.Commit();
