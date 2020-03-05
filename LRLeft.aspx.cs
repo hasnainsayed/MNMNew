@@ -10,8 +10,7 @@ using System.Web.UI.HtmlControls;
 using ClosedXML.Excel;
 using System.IO;
 using System.Globalization;
-
-public partial class LRReport : System.Web.UI.Page
+public partial class LRLeft : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -23,7 +22,7 @@ public partial class LRReport : System.Web.UI.Page
             }
             else
             {
-                ScriptManager.RegisterClientScriptBlock(this, GetType(), "mykey", "firedtSearch();", true);
+
             }
         }
         catch (Exception ex)
@@ -40,7 +39,7 @@ public partial class LRReport : System.Web.UI.Page
             DataTable dt = obj.getTable("lrListing");
             drplr.DataSource = dt;
             drplr.DataBind();
-            drplr.Items.Insert(0, new ListItem("--- Select----", "-2"));
+            drplr.Items.Insert(0, new ListItem("--- Select All----", "-2"));
 
 
         }
@@ -55,14 +54,16 @@ public partial class LRReport : System.Web.UI.Page
         try
         {
             LRReportsCls obj = new LRReportsCls();
-            DataTable dt = obj.getLRReport(drplr.SelectedValue);
+            DataTable dt = obj.getLRLeft(drplr.SelectedValue);
             GV.DataSource = dt;
             GV.DataBind();
 
-            int barcode = dt.AsEnumerable().Where(x => x["invType"].ToString() == "Single").ToList().Count;
-            int trader = dt.AsEnumerable().Where(x => x["invType"].ToString() == "Trader Note").ToList().Count;
-            lbl1.Text = trader.ToString();
-            lbl2.Text = barcode.ToString();
+            object qunty = dt.Compute("Sum(quantity)", string.Empty);
+            object rflqty = dt.Compute("Sum(rflQuantity)", string.Empty);
+            object diff = dt.Compute("Sum(diff)", string.Empty);
+            lbl1.Text = qunty.ToString();
+            lbl2.Text = rflqty.ToString();
+            lbl3.Text = diff.ToString();
 
         }
         catch (Exception ex)

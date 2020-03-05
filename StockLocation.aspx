@@ -1,24 +1,21 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="LRReport.aspx.cs" Inherits="LRReport" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="StockLocation.aspx.cs" Inherits="StockLocation" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
      <div class="content-wrapper">
     <section class="content-header">
-            <h1>LR 
+            <h1>Stock Location
             </h1>
             <ol class="breadcrumb">
                 <li><a href="index.aspx"><i class="fa fa-dashboard"></i>Home</a></li>
                  <li><a href="#"><i class="fa fa-dashboard"></i>Report</a></li>
-                <li class="active"><a  href="LRReport.aspx">LR Report  </a></li>
+                <li class="active"><a  href="StockLocation.aspx">Stock Location  </a></li>
                
             </ol>
         </section>
      
-    <asp:UpdatePanel ID="UpdatePanel14" runat="server">
-        <ContentTemplate>
-
- 
+   
             <section class="content">
                 <div class="row">
                     <!-- left column -->
@@ -35,16 +32,6 @@
 
                             <div class="box-body">
 
-                                <div class="col-md-12">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>LR</label>
-                                           <asp:DropDownList ID="drplr" runat="server" DataTextField="lrno" DataValueField="id" CssClass="form-control select2"></asp:DropDownList>
-                                        </div>
-                                    </div>
-                                    
-                                 
-                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="box box-widget widget-user-">
@@ -58,10 +45,10 @@
 
                                             <div class="box-footer no-padding">
                                                 <ul class="nav nav-stacked">
-                                                    <li><a href="#" style="background: white; cursor: default">Trader Count <span class="pull-right badge bg-blue">
+                                                    <li><a href="#" style="background: white; cursor: default">Total MRP <span class="pull-right badge bg-blue">
                                                         <asp:Label runat="server" ID="lbl1" Text="0"></asp:Label></a></span></li>
                                                     <%--  <li><a href="#">Tasks <span class="pull-right badge bg-aqua">5</span></a></li>--%>
-                                                    <li><a href="#" style="background: white; cursor: default">Barcode Count <span class="pull-right badge bg-red"> 
+                                                    <li><a href="#" style="background: white; cursor: default">Total Count <span class="pull-right badge bg-green"> 
                                                         <asp:Label runat="server" ID="lbl2" Text="0"></asp:Label></span></a></li>
                                                     <%--<li><a href="#" style="background: white; cursor:default">Pending Task   <span class="pull-right badge bg-red"><asp:Label runat="server" ID="lblpending" Text="0"></asp:Label></span></a></li>--%>
                                                   
@@ -73,11 +60,6 @@
                                     
                                 </div>
                               
-
-                            <div class="box-footer pull-right">
-                                    <asp:LinkButton runat="server" CssClass="btn btn-sm  btn-danger" ID="btnget" OnClick="btnget_Click"><i class="fa fa-database"></i> Get Report </asp:LinkButton>
-                                    <asp:LinkButton runat="server" CssClass="btn btn-sm bg-olive-active" ID="refresh" OnClick="refresh_Click"><i class="fa fa-refresh"></i> Clear </asp:LinkButton>
-                             </div>
 
                         </div>
                         <!-- /.box -->
@@ -97,12 +79,13 @@
                           
                             </div>
                             <div class="box-body table-responsive ">
-
                                 <table id="example111" class="table table-bordered table-striped dtSearch">
                             <thead>
                                <tr>
-                                        <th>Invoice Type</th>
-                                        <th>Bag Description</th>
+                                    <th>SKU</th>
+                                        <th>Rack Barcode</th>
+                                        <th>MRP</th>
+                                        <th>Count</th>
                                    
                                </tr>
                             </thead>
@@ -110,8 +93,10 @@
                                 <asp:Repeater ID="GV" runat="server">
                                     <ItemTemplate>
                                         <tr>
-                                                   <td><%# Eval("invType")%> </td>
-                                                    <td><%# Eval("BagDescription")%> </td>
+                                            <td><%# Eval("sku")%> </td>
+                                                    <td><%# Eval("RackBarcode")%> </td>
+                                                    <td><%# Eval("mrp")%> </td>
+                                                    <td><%# Eval("cnt")%> </td>
                                            
 
                                         </tr>
@@ -124,7 +109,9 @@
                                 <tfoot>
                             </tfoot>
                         </table>
-                                
+
+
+                                 
                             </div>
                         </div>
                     </div>
@@ -132,9 +119,7 @@
 
 
      </section>
-            </ContentTemplate>
-       
-        </asp:UpdatePanel>
+            
          </div>
 </asp:Content>
 
