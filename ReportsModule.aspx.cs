@@ -596,7 +596,7 @@ public partial class ReportsModule : System.Web.UI.Page
         {
             min = 0;
             max = 360;
-            commingfrom = "More306";
+            commingfrom = "More360";
 
         }
         lblmin.Text = min.ToString();

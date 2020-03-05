@@ -375,13 +375,13 @@ public class bulkReportCls
                 }
 
 
-                command.CommandText = "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.C1Name)-(CHARINDEX(':',c.c1name)-1)) AS  VendorName,i.Title,SUM(s.purchaseRate) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
+                command.CommandText = "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.C1Name)-(CHARINDEX(':',c.c1name)-1)) AS  VendorName,i.Title,CASE WHEN isnull(v.istax,0)=1 THEN sum(s.purchaseRate)+((SELECT tax FROM tax)/100* sum(s.purchaseRate))+sum(ISNULL(s.travelCost,0)) ELSE sum(s.purchaseRate)+sum(isnull(s.travelCost,0)) END AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
                                       "FROM StockUpInward s " +
                                       "INNER JOIN ItemStyle i ON i.StyleID = s.StyleID " +
-                                      "INNER JOIN COLUMN1 c ON c.col1id = i.Col1 " +
+                                      "INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER  JOIN Vendor v ON v.svid=c.Col1ID  " +
                                       "WHERE c.Col1ID = @VendorID AND " +
                                       ""+ where + "    and s.physicalid  IN (1,3) " +
-                                      "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title " +
+                                      "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title,v.istax  " +
                                       "ORDER BY c.C1Name asc";
             }
             command.Parameters.AddWithValue("@frmDate", frmDate);
