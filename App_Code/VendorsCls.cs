@@ -17,7 +17,7 @@ public class VendorsCls
         //
     }
 
-    public int addUpdateVendor(int VendorID, string VendorName, string Contact, string Email, string City, string vAddress, string gstin,string svid)
+    public int addUpdateVendor(int VendorID, string VendorName, string Contact, string Email, string City, string vAddress, string gstin,string svid,string istax)
     {
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
         SqlConnection connection = new SqlConnection(connectionString);
@@ -44,15 +44,16 @@ public class VendorsCls
             command.Parameters.AddWithValue("@vAddress", vAddress);
             command.Parameters.AddWithValue("@gstin", gstin);
             command.Parameters.AddWithValue("@svid", svid);
+            command.Parameters.AddWithValue("@istax", istax);
            
             if (VendorID.Equals(0))
             {
-                command.CommandText = "insert into Vendor (VendorName,Contact,Email,City,vAddress,gstin,svid) values (@VendorName,@Contact,@Email,@City,@vAddress,@gstin,@svid)";
+                command.CommandText = "insert into Vendor (VendorName,Contact,Email,City,vAddress,gstin,svid,istax) values (@VendorName,@Contact,@Email,@City,@vAddress,@gstin,@svid,@istax)";
             }
             else
             {
                 command.CommandText = "update Vendor set VendorName=@VendorName," +
-                    "Contact=@Contact,Email=@Email,City=@City,vAddress=@vAddress,gstin=@gstin,svid=@svid where VendorID=@VendorID";
+                    "Contact=@Contact,Email=@Email,City=@City,vAddress=@vAddress,gstin=@gstin,svid=@svid,istax=@istax where VendorID=@VendorID";
                 command.Parameters.AddWithValue("@VendorID", VendorID);
             }
             

@@ -94,8 +94,18 @@
                                 </div>
 
                             </div>
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                   <Label>Is Tax</Label>  
+                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ControlToValidate="rbltax" ValidationGroup="save" runat="server" ErrorMessage=" is Mandatory" ForeColor="Red" /><br />
+                                      <asp:RadioButtonList ID="rbltax" runat="server" RepeatDirection="Horizontal" RepeatLayout="Flow">
+                                            <asp:ListItem Text="Yes" Value="1"  ></asp:ListItem>
+                                            <asp:ListItem Text="No" Value="0"  Selected="True" runat="server"  style="margin-left: 15px;"></asp:ListItem>
+                                       </asp:RadioButtonList>
+                                </div>
 
-
+                            </div>
+                            
                              
                             <!-- /.col -->
                     </div>
@@ -106,7 +116,7 @@
                     <div class="box-body table-responsive ">
                     <div class="box-footer btn-toolbar " style="margin-left: 0px;">
 
-                        <asp:Button ID="btnSave"  class="btn btn-success pull-right btn-round" runat="server" Text="Save" OnClick="btnSave_Click"/>
+                        <asp:Button ID="btnSave"  class="btn btn-success pull-right btn-round" ValidationGroup="save" runat="server" Text="Save" OnClick="btnSave_Click"/>
                         <asp:Button ID="btnCancel"  class="btn btn-danger pull-right btn-round" runat="server" Text="Cancel" OnClick="btnCancel_Click" />
                     </div>
                 </div>
