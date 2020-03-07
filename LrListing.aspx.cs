@@ -35,7 +35,7 @@ public partial class LrListing : System.Web.UI.Page
         try
         {
             LrListingCls obj = new LrListingCls();
-            DataTable dt = obj.getLr();
+            DataTable dt = obj.getLr(lblcommingfrom.Text);
             GV.DataSource = dt;
             GV.DataBind();
         }
@@ -261,4 +261,67 @@ public partial class LrListing : System.Web.UI.Page
             rex.recordException(ex);
         }
     }
-}
+
+    protected void btnfilter_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            string commimgfrom = "";
+            if (drplr.SelectedValue.Equals("Active"))
+            { 
+                lblcommingfrom.Text = "Active";
+            }
+            else if (drplr.SelectedValue.Equals("InActive"))
+            {
+                lblcommingfrom.Text = "InActive";
+            }
+            else if(drplr.SelectedValue.Equals("--Select LR Status--"))
+            {
+                lblcommingfrom.Text = "";
+            }
+            BindData();
+            getData();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    protected void getData()
+    {
+        try
+        {
+            LrListingCls obj1 = new LrListingCls();
+            DataTable dt = obj1.getLr(lblcommingfrom.Text);
+            int count = dt.Rows.Count;
+            if (lblcommingfrom.Text.Equals("Active"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>LR Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>LR Active Count :</th><td class='report-data' style='padding-right:650px;'>" + dt.Rows.Count.ToString() + "</td></tr> ");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+
+            else if (lblcommingfrom.Text.Equals("InActive"))
+            {
+                StringBuilder html2 = new StringBuilder();
+                html2.Append("<table id='Header'width='100%' style='border-collapse:collapse'>");
+                html2.Append("</table>");
+                html2.Append("<table width='100%' style='border-collapse:collapse'>");
+                html2.Append("<tr><td style='text-align: left;font-size:25px;padding-top:5px;padding-bottom: 9px;padding-left:15px;'>LR Summary</td></tr>");
+                html2.Append("<tr><th class='report-data' style='padding-left:17px;'>LR InActive Count :</th><td class='report-data' style='padding-right:650px;'>" + dt.Rows.Count.ToString() + "</td></tr>");
+                html2.Append("</table>");
+                PlaceHolder1.Controls.Add(new Literal { Text = html2.ToString() });
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+        }

@@ -25,13 +25,10 @@
                   <!-- BOx -->
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title"></h3>
-
-                       <%-- <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-
-                        </div>--%>
-                    </div>
+                                <h3 class="box-title">Add LR</h3>
+                                <div class="pull-right">
+                                </div>
+                            </div>
                     <!-- /.box-header -->
                     <div class="box-body">
                
@@ -101,12 +98,76 @@
             <div class="col-xs-12">
                
             <asp:Label ID="hdnID" runat="server" Text="" Visible="false"></asp:Label> 
+            <asp:Label ID="lblcommingfrom" runat="server" Text="" Visible="false"></asp:Label> 
                 
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title">
                             <asp:Button ID="btnadd" runat="server" Text="Add New LR" class="btn btn-primary btn-sm" OnClick="btnadd_Click" /></h3>
                           </div>
+
+                    <%--LR Summary PlaceHolder--%>
+                     <div class="box box-primary" id="summid" runat="server" >
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="box-body table-responsive no-padding">
+                                 <asp:PlaceHolder ID="PlaceHolder1"  runat="server"></asp:PlaceHolder>
+                               </div>
+                           </div>
+                        </div>
+                        </div>
+
+                    <%--Bora summary PlaceHolder--%>
+                    <div class="box box-primary" id="Div1" runat="server" >
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="box-body table-responsive no-padding">
+                                 <asp:PlaceHolder ID="PlaceHolder2"  runat="server"></asp:PlaceHolder>
+                               </div>
+                           </div>
+                        </div>
+                        </div>
+            <div class="box-header">
+                    <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>LR Status</label>
+                                <asp:DropDownList ID="drplr" runat="server" CssClass="form-control select2">
+                                    <asp:ListItem>--Select LR Status--</asp:ListItem>  
+                                    <asp:ListItem>Active</asp:ListItem>  
+                                    <asp:ListItem>InActive</asp:ListItem>   
+                                </asp:DropDownList>
+                                </div>
+                            </div>
+
+                    
+                    <%--<div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Bora Status</label>
+                                <asp:DropDownList ID="drpbora" runat="server" CssClass="form-control select2">
+                                    <asp:ListItem>--Select Bora Status--</asp:ListItem>  
+                                    <asp:ListItem>Generated</asp:ListItem>  
+                                    <asp:ListItem>Loaded</asp:ListItem>  
+                                    <asp:ListItem>Active</asp:ListItem>  
+                                    <asp:ListItem>InActive</asp:ListItem>   
+                                </asp:DropDownList>
+                                </div>
+                        </div>--%>
+
+                <div class="box-body table-responsive ">
+                    <div class="box-footer btn-toolbar " style="margin-left: 0px;">
+                        <asp:Button ID="btnfilter"  class="btn btn-success pull-right btn-round" runat="server" Text="Apply Filter" OnClick="btnfilter_Click"/>
+                    </div>
+                </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+                    <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+
                     <div class="box-body table-responsive">
                          
                         <table id="example111" class="table table-bordered table-striped dtSearch">

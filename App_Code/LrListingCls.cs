@@ -17,7 +17,7 @@ public class LrListingCls
         //
     }
 
-    public DataTable getLr()
+    public DataTable getLr(string commingfrom)
     {
         DataTable catTable = new DataTable();
         string connectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
@@ -36,7 +36,16 @@ public class LrListingCls
         command.Transaction = transaction;
         try
         {
-            command.CommandText = "select * from lrListing";
+            string where = "";
+            if (commingfrom.Equals("Active"))
+            {
+                where = "where status=0";
+            }
+            else if (commingfrom.Equals("InActive"))
+            {
+                where = "where status=1";
+            }
+            command.CommandText = "select * from lrListing " + where + " ";
             catTable.Load(command.ExecuteReader());
 
             transaction.Commit();
