@@ -555,4 +555,38 @@ public partial class newLot : System.Web.UI.Page
             rex.recordException(ex);
         }
     }
+
+    protected void markInactive_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            DataTable dt = new DataTable();
+            utilityCls obj = new utilityCls();
+            newLotCls objL = new newLotCls();
+            dt = obj.getTableColwithID("Lot", "IsActive", "1", "BagId,totalPiece");
+            foreach(DataRow dRow in dt.Rows)
+            {
+                styleCls stObj = new styleCls();
+                DataTable pieceCountDt = stObj.getPieceCountByLot(dRow["BagId"].ToString());
+                int pieceCount = 0;
+                if (!pieceCountDt.Rows.Count.Equals(0))
+                {
+                    pieceCount = Convert.ToInt32(pieceCountDt.Rows[0]["pieces"]);
+                }
+
+                int pieceAvailable = Convert.ToInt32(dRow["totalPiece"]) - pieceCount;
+                if(pieceAvailable.Equals(0))
+                {
+                    int success = objL.changeLotStatus(Convert.ToInt32(dRow["BagId"].ToString()), "0");
+                }
+            }
+            Response.Redirect("newLot.aspx",true);
+
+        }
+        catch (Exception ex)
+        {
+            RecordExceptionCls rex = new RecordExceptionCls();
+            rex.recordException(ex);
+        }
+    }
 }
