@@ -387,30 +387,37 @@ public class bulkReportCls
             }
 
             else if (btnType.Equals("Stock Location"))
-            {
+                {
                 string where = "";
+                string lrwhere = "";
                 if(commingfrom.Equals("Less30"))
                 {
-                    where = " DATEDIFF(DAY, s.SystemDate, GETDATE()) <= 30";
+                    where = " and DATEDIFF(DAY, s.SystemDate, GETDATE()) <= 30";
+                    lrwhere = " and DATEDIFF(DAY, l.invoiceDate, GETDATE()) <= 30";
                 }
                 else if (commingfrom.Equals("More360"))
                 {
-                    where = " DATEDIFF(DAY,s.SystemDate, GETDATE()) > 360";
+                    where = " and DATEDIFF(DAY,s.SystemDate, GETDATE()) > 360";
+                    lrwhere = " and DATEDIFF(DAY,l.invoiceDate, GETDATE()) > 360 or l.invoiceDate IS NULL ";
                 }
                 else if (commingfrom.Equals("Normal"))
                 {
-                    where = " DATEDIFF(DAY,s.SystemDate, GETDATE()) > @minval AND (DATEDIFF(DAY,s.SystemDate, GETDATE())) <= @maxval";
+                    where = " and DATEDIFF(DAY,s.SystemDate, GETDATE()) > @minval AND (DATEDIFF(DAY,s.SystemDate, GETDATE())) <= @maxval";
+                    lrwhere = " and DATEDIFF(DAY,l.invoiceDate, GETDATE()) > @minval AND (DATEDIFF(DAY,l.invoiceDate, GETDATE())) <= @maxval";
                 }
 
 
-                command.CommandText = "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.C1Name)-(CHARINDEX(':',c.c1name)-1)) AS  VendorName,i.Title,sum(isnull(s.purchaseRate,0))+sum(isnull(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode " +
-                                      "FROM StockUpInward s " +
-                                      "INNER JOIN ItemStyle i ON i.StyleID = s.StyleID " +
-                                      "INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER  JOIN Vendor v ON v.svid=c.Col1ID  " +
-                                      "WHERE c.Col1ID = @VendorID AND " +
-                                      ""+ where + "    and s.physicalid  IN (1,3) " +
-                                      "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title  " +
-                                      "ORDER BY c.C1Name asc";
+                command.CommandText = "SELECT VendorName,Title,SUM(Amount) AS Amount,SUM(Quantity) AS Quantity,RackBarcode,StyleCode  " +
+                                      "FROM ( " +
+                                      "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.C1Name)-(CHARINDEX(':',c.c1name)-1)) AS  VendorName,i.Title,sum(isnull(s.purchaseRate,0))+sum(isnull(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode  " +
+                                      "FROM StockUpInward s INNER JOIN ItemStyle i ON i.styleid = s.styleid "+ where + " INNER JOIN COLUMN1 c ON c.col1id = i.Col1  AND  c.Col1ID ="+VendorID+"  INNER JOIN Lot l ON l.BagId=s.BagID  INNER JOIN Vendor v ON v.VendorID=l.VendorID     " +
+                                      "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title   " +
+                                      "UNION ALL   " +
+                                      "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.c1name)-(CHARINDEX(':',c.c1name)-1)) as VendorName,l.BagDescription AS Title,SUM(l.totalAmount) AS Amount,SUM(l.totalPiece) AS Quantity, 'LR' AS  RackBarcode,'' AS StyleCode  " +
+                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno AND l.IsActive = 3 " + lrwhere + " INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid AND c.Col1ID=" + VendorID + "       " +
+                                      "GROUP BY c.c1name,l.BagDescription " +
+                                      ") dt " +
+                                      "GROUP BY Title,VendorName,RackBarcode,StyleCode";
             }
             command.Parameters.AddWithValue("@frmDate", frmDate);
             command.Parameters.AddWithValue("@toDate", toDate);

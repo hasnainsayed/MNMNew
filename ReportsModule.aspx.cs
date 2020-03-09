@@ -401,21 +401,31 @@ public partial class ReportsModule : System.Web.UI.Page
     
     public static string ConvertDataTableToHTML(DataTable dt)
     {
-        string html = "<table  class='table table-hover' id='Header' width='100%' style='border-collapse:collapse' >";
-        //add header row
-        html += "<tr>";
-        for (int i = 0; i < dt.Columns.Count; i++)
-            html += "<th class='report-data' style='padding-left:17px;'>" + dt.Columns[i].ColumnName + "</th>";
-        html += "</tr>";
-        //add rows
-        for (int i = 0; i < dt.Rows.Count; i++)
+        string html = "";
+        try
         {
+
+            html = "<table  class='table table-hover' id='Header' width='100%' style='border-collapse:collapse' >";
+            //add header row
             html += "<tr>";
-            for (int j = 0; j < dt.Columns.Count; j++)
-                html += "<td style='padding-left:17px;'>" + dt.Rows[i][j].ToString() + "</td>";
+            for (int i = 0; i < dt.Columns.Count; i++)
+                html += "<th class='report-data' style='padding-left:17px;'>" + dt.Columns[i].ColumnName + "</th>";
             html += "</tr>";
+            //add rows
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                html += "<tr>";
+                for (int j = 0; j < dt.Columns.Count; j++)
+                    html += "<td style='padding-left:17px;'>" + dt.Rows[i][j].ToString() + "</td>";
+                html += "</tr>";
+            }
+            html += "</table>";
+           
         }
-        html += "</table>";
+        catch(Exception ex)
+        {
+
+        }
         return html;
     }
 
