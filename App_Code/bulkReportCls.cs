@@ -67,27 +67,28 @@ public class bulkReportCls
                                     "(sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0))) AS totals, 0 AS totalw, 0 AS totallr, " +
                                     "c.c1name " +
                                     "FROM StockUpInward s " +
-                                    "INNER JOIN ItemStyle i ON i.styleid = s.styleid and s.physicalid = 3 INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot l ON l.BagId=s.BagID INNER JOIN Vendor v ON v.VendorID=l.VendorID " +
-
-                                    "GROUP BY s.SystemDate, c.c1name, s.travelCost,s.taxValue " +
+                                    "INNER JOIN ItemStyle i ON i.styleid = s.styleid  INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot l ON l.BagId=s.BagID INNER JOIN Vendor v ON v.VendorID=l.VendorID " +
+                                    " Where s.physicalid = 3" +
+                                    "GROUP BY s.SystemDate, c.c1name " +
                                     "UNION ALL " +
-                                    "SELECT " +
-                                    "0 as pless30s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 30 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS pless30w, 0 AS a0to30, " +
-                                    "0 AS p31to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 60 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p31to60w, 0 AS a31to60, " +
-                                    "0 AS p61to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 90 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p61to90w, 0 AS a61to90, " +
-                                    "0 AS p91to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 120 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p91to120w, 0 AS a91to120, " +
-                                    "0 AS p121to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 150 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p121to150w, 0 AS a121to150, " +
-                                    "0 AS p151to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 180 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p151to180w, 0 AS a151to180, " +
-                                    "0 AS p181to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 240 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p181to240w, 0 AS a181to240, " +
-                                    "0 AS p241to60s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 300 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p241to300w, 0 AS a241to300, " +
-                                    "0 AS p301to60s, (CASE When(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 360 Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS p301to360w, 0 AS a301to360, " +
-                                    "0 AS pmore360s, (CASE WHEN((DATEDIFF(DAY, s.SystemDate, GETDATE())) > 360) Then sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) Else 0 END) AS pmore360w, 0 AS amore360, " +
-                                    "0 AS totals, (sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0))) AS totalw, 0 AS totallr, " +
-                                    "c.c1name " +
-                                    "FROM StockUpInward s " +
-                                    "INNER JOIN ItemStyle i ON i.styleid = s.styleid  AND s.physicalid <> 3 INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot l ON l.BagId=s.BagID INNER JOIN Vendor v ON v.VendorID=l.VendorID " +
-
-                                    "GROUP BY s.SystemDate, c.c1name, s.travelCost,s.taxValue " +
+                                   "SELECT " +
+                                   "0 AS pless30s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 30 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS pless30w, 0 AS a0to30, " +
+                                   "0 AS p31to60s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 30 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 60 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p31to60w, 0 AS a31to60, " +
+                                   "0 AS p61to90s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 60 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 90 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p61to90w, 0 AS a61to90, " +
+                                   " 0 AS p91to120s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 90 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 120 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p91to120w, 0 AS a91to120, " +
+                                   "  0 AS p121to150s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 120 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 150 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p121to150w, 0 AS a121to150, " +
+                                   "   0 AS p151to180s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 150 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 180 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p151to180w, 0 AS a151to180, " +
+                                   "     0 AS p181to240s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 180 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 240 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p181to240w, 0 AS a181to240, " +
+                                   "      0 AS p241to300s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 240 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 300 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p241to300w, 0 AS a241to300, " +
+                                   "       0 AS p301to360s, (CASE WHEN(DATEDIFF(DAY, s.SystemDate, GETDATE())) > 300 AND(DATEDIFF(DAY, s.SystemDate, GETDATE())) <= 360 THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS p301to360w, 0 AS a301to360, " +
+                                   "         0 AS pmore360s, (CASE WHEN((DATEDIFF(DAY, s.SystemDate, GETDATE())) > 360) THEN SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0)) ELSE 0 END) AS pmore360w, 0 AS amore360, " +
+                                   "         0 AS totals,  (SUM(ISNULL(s.purchaseRate, 0)) + SUM(ISNULL(s.taxValue, 0)) + SUM(ISNULL(s.travelCost, 0))) AS totalw, 0 AS totallr, c.c1name " +
+                                   "     FROM StockUpInward s " +
+                                   "INNER JOIN ItemStyle i ON i.styleid = s.styleid AND (s.physicalid <> 3 or s.physicalid is null) " +
+                                   "INNER JOIN COLUMN1 c ON c.col1id = i.Col1 " +
+                                   "INNER JOIN Lot l ON l.BagId = s.BagID " +
+                                   "INNER JOIN Vendor v ON v.VendorID = l.VendorID " +
+                                   "GROUP BY s.SystemDate, c.c1name " +
                                     "UNION ALL " +
                                     "SELECT " +
                                     "0 as pless30s, 0 as pless30w, CASE When(DATEDIFF(DAY, l.invoiceDate, GETDATE())) <= 30 Then SUM(l.totalAmount) Else 0 END AS a0to30, " +
@@ -150,7 +151,7 @@ public class bulkReportCls
                      "(sum(ISNULL(s.purchaseRate,0))+sum(ISNULL(s.taxValue,0))+sum(ISNULL(s.travelCost,0))) AS total, " +
                      "c.c1name, s.purchaseRate, s.SystemDate " +
                      "FROM StockUpInward s " +
-                     "INNER JOIN ItemStyle i ON i.styleid = s.styleid and s.physicalId <>3 INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot l ON l.BagId=s.BagID INNER JOIN Vendor v ON v.VendorID=l.VendorID  GROUP BY s.SystemDate, c.c1name, s.purchaseRate,s.travelCost,s.taxValue) a GROUP BY c1name ORDER BY c1name";
+                     "INNER JOIN ItemStyle i ON i.styleid = s.styleid and (s.physicalId <>3 or s.physicalid is null) INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot l ON l.BagId=s.BagID INNER JOIN Vendor v ON v.VendorID=l.VendorID  GROUP BY s.SystemDate, c.c1name, s.purchaseRate,s.travelCost,s.taxValue) a GROUP BY c1name ORDER BY c1name";
             }
 
             else if (btnType.Equals("Sales With Margin"))
@@ -182,7 +183,7 @@ public class bulkReportCls
                       "(sum(Isnull(a.purchaseRate,0))+sum(isnull(a.taxValue,0))+sum(isnull(a.travelCost,0))) AS totalpurchase, SUM(s.sellingprice) AS totalsales, " +
                       "c.c1name, a.purchaseRate, a.SystemDate " +
                       "FROM ArchiveStockUpInward a " +
-                      "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 inner join salesrecord s ON s.archiveid = a.ArchiveStockupId INNER  JOIN Vendor v ON v.svid=c.Col1ID WHERE s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name ";
+                      "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 inner join salesrecord s ON s.archiveid = a.ArchiveStockupId INNER JOIN Lot l ON l.BagId = a.BagID INNER JOIN Vendor v ON v.VendorID = l.VendorID  WHERE s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name ";
             }
 
             else if (btnType.Equals("Sales For Warehouse"))
@@ -214,7 +215,7 @@ public class bulkReportCls
                       "(sum(Isnull(a.purchaseRate,0))+sum(isnull(a.taxValue,0))+sum(isnull(a.travelCost,0))) AS totalpurchase, SUM(s.sellingprice) AS totalsales, " +
                       "c.c1name, a.purchaseRate, a.SystemDate " +
                       "FROM ArchiveStockUpInward a " +
-                      "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER  JOIN Vendor v ON v.svid=c.Col1ID inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 1 and s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name";
+                      "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot lt ON lt.BagId = a.BagID INNER JOIN Vendor v ON v.VendorID = lt.VendorID  inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 1 and s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name";
             }
 
             else if (btnType.Equals("Sales For Shop"))
@@ -246,7 +247,7 @@ public class bulkReportCls
                        "(sum(Isnull(a.purchaseRate,0))+sum(isnull(a.taxValue,0))+sum(isnull(a.travelCost,0))) AS totalpurchase, SUM(s.sellingprice) AS totalsales, " +
                        "c.c1name, a.purchaseRate, a.SystemDate " +
                        "FROM ArchiveStockUpInward a " +
-                       "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER  JOIN Vendor v ON v.svid=c.Col1ID inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 3 and  s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name";
+                       "INNER JOIN ItemStyle i ON i.styleid = a.styleid INNER JOIN COLUMN1 c ON c.col1id = i.Col1 INNER JOIN Lot lt ON lt.BagId = a.BagID INNER JOIN Vendor v ON v.VendorID = lt.VendorID  inner join salesrecord s ON s.archiveid = a.ArchiveStockupId inner join login l ON l.userid = a.userid WHERE l.physicalLocation = 3 and  s.returntimestamp IS NULL AND convert(date, s.salesDateTime) BETWEEN convert(date, @frmDate) AND convert(date, @toDate) GROUP BY a.SystemDate, c.c1name, a.purchaseRate,a.taxValue,a.travelCost) b GROUP BY c1name ORDER BY c1name";
             }
 
             else if (btnType.Equals("Purchase With Margin"))
@@ -392,17 +393,17 @@ public class bulkReportCls
                 string lrwhere = "";
                 if(commingfrom.Equals("Less30"))
                 {
-                    where = " and DATEDIFF(DAY, s.SystemDate, GETDATE()) <= 30";
+                    where = " Where DATEDIFF(DAY, s.SystemDate, GETDATE()) <= 30";
                     lrwhere = " and DATEDIFF(DAY, l.invoiceDate, GETDATE()) <= 30";
                 }
                 else if (commingfrom.Equals("More360"))
                 {
-                    where = " and DATEDIFF(DAY,s.SystemDate, GETDATE()) > 360";
-                    lrwhere = " and DATEDIFF(DAY,l.invoiceDate, GETDATE()) > 360 or l.invoiceDate IS NULL ";
+                    where = " Where DATEDIFF(DAY,s.SystemDate, GETDATE()) > 360";
+                    lrwhere = " and (DATEDIFF(DAY, l.invoiceDate, GETDATE())) > 360 or l.invoiceDate IS NULL ";
                 }
                 else if (commingfrom.Equals("Normal"))
                 {
-                    where = " and DATEDIFF(DAY,s.SystemDate, GETDATE()) > @minval AND (DATEDIFF(DAY,s.SystemDate, GETDATE())) <= @maxval";
+                    where = " Where DATEDIFF(DAY,s.SystemDate, GETDATE()) > @minval AND (DATEDIFF(DAY,s.SystemDate, GETDATE())) <= @maxval";
                     lrwhere = " and DATEDIFF(DAY,l.invoiceDate, GETDATE()) > @minval AND (DATEDIFF(DAY,l.invoiceDate, GETDATE())) <= @maxval";
                 }
 
@@ -410,11 +411,13 @@ public class bulkReportCls
                 command.CommandText = "SELECT VendorName,Title,SUM(Amount) AS Amount,SUM(Quantity) AS Quantity,RackBarcode,StyleCode  " +
                                       "FROM ( " +
                                       "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.C1Name)-(CHARINDEX(':',c.c1name)-1)) AS  VendorName,i.Title,sum(isnull(s.purchaseRate,0))+sum(isnull(s.taxValue,0))+sum(ISNULL(s.travelCost,0)) AS Amount,COUNT(s.StockupID) AS Quantity,s.RackBarcode,i.StyleCode  " +
-                                      "FROM StockUpInward s INNER JOIN ItemStyle i ON i.styleid = s.styleid "+ where + " INNER JOIN COLUMN1 c ON c.col1id = i.Col1  AND  c.Col1ID ="+VendorID+"  INNER JOIN Lot l ON l.BagId=s.BagID  INNER JOIN Vendor v ON v.VendorID=l.VendorID     " +
+                                      "FROM StockUpInward s INNER JOIN ItemStyle i ON i.styleid = s.styleid  INNER JOIN COLUMN1 c ON c.col1id = i.Col1  AND  c.Col1ID ="+VendorID+"  INNER JOIN Lot l ON l.BagId=s.BagID  INNER JOIN Vendor v ON v.VendorID=l.VendorID  " +
+                                      " " + where + "   " +
                                       "GROUP BY c.C1Name,s.RackBarcode,i.StyleCode,i.Title   " +
                                       "UNION ALL   " +
                                       "SELECT substring(c.c1name, CHARINDEX(':', c.c1name)+1, len(c.c1name)-(CHARINDEX(':',c.c1name)-1)) as VendorName,l.BagDescription AS Title,SUM(l.totalAmount) AS Amount,SUM(l.totalPiece) AS Quantity, 'LR' AS  RackBarcode,'' AS StyleCode  " +
-                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno AND l.IsActive = 3 " + lrwhere + " INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid AND c.Col1ID=" + VendorID + "       " +
+                                      "FROM Lot l INNER JOIN  lrListing lr ON lr.id = l.lrno  INNER JOIN Vendor v ON v.VendorID = l.VendorID INNER JOIN Column1 c ON c.Col1ID=v.svid AND c.Col1ID=" + VendorID + " " +
+                                      " Where l.IsActive = 3  " + lrwhere + "      " +
                                       "GROUP BY c.c1name,l.BagDescription " +
                                       ") dt " +
                                       "GROUP BY Title,VendorName,RackBarcode,StyleCode";
